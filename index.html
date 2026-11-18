@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Encyclopédie des Jeux de Cartes Classiques</title>
+    <!-- Primitive UI CSS by Tania Rascia -->
+    <link rel="stylesheet" href="https://unpkg.com/primitive-ui/dist/css/main.css">
+    <style>
+        /* ==================== PRIMITIVE UI TOKENS & AUTHENTIC FALLBACKS ==================== */
+        :root {
+            --x-small: 600px;
+            --small: 800px;
+            --medium: 1000px;
+            --large: 1200px;
+
+            --background: #ffffff;
+            --light-background: #F4F5F6;
+            --primary-color: #0366EE;
+            --primary-hover: #0250bc;
+            --secondary-color: #29de7d;
+            --accent-color: #00D1B2;
+            --accent-hover: #00b398;
+            --heading-color: #2b2b2b;
+            --font-color: #404040;
+            --muted-color: #6b7280;
+            --border-color: #CDCDCD;
+            --border-light: #e5e7eb;
+            --border-radius: 4px;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+            --monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: var(--font-family);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--font-color);
+            background-color: var(--background);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            color: var(--font-color);
+            background-color: var(--background);
+        }
+
+        /* Primitive Containers */
+        .medium-container {
+            max-width: var(--medium);
+            padding: 0 1.25rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            max-width: var(--large);
+            padding: 0 1.25rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Primitive Typography */
+        h1, h2, h3, h4, h5 {
+            color: var(--heading-color);
+            font-weight: 600;
+            line-height: 1.25;
+            margin-top: 0;
+        }
+
+        h1 { font-size: 2.15rem; margin-bottom: 0.65rem; }
+        h2 { font-size: 1.55rem; margin-bottom: 0.65rem; }
+        h3 { font-size: 1.2rem; margin-bottom: 0.45rem; }
+        h4 { font-size: 1.02rem; margin-bottom: 0.35rem; }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0.95rem;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        code, kbd {
+            font-family: var(--monospace);
+            font-size: 0.85rem;
+            background: var(--light-background);
+            padding: 0.12rem 0.4rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Primitive Buttons */
+        .button, button.button {
+            display: inline-block;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            background: var(--primary-color);
+            color: #ffffff;
+            font-family: var(--font-family);
+            font-weight: 600;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            padding: 0.6rem 1.05rem;
+            margin: 0;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .button:hover, button.button:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .accent-button, button.accent-button {
+            border-color: var(--accent-color);
+            background: var(--accent-color);
+            color: #ffffff;
+        }
+
+        .accent-button:hover, button.accent-button:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            color: #ffffff;
+        }
+
+        .muted-button, button.muted-button {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--font-color);
+        }
+
+        .muted-button:hover, button.muted-button:hover {
+            background: var(--light-background);
+            border-color: #9e9e9e;
+            color: var(--heading-color);
+        }
+
+        .muted-button.is-active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .round-button {
+            border-radius: 999px;
+        }
+
+        .small-button {
+            font-size: 0.82rem;
+            padding: 0.42rem 0.8rem;
+        }
+
+        /* Primitive Forms */
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--heading-color);
+            margin-bottom: 0.35rem;
+        }
+
+        input[type="text"],
+        input[type="search"],
+        select {
+            display: block;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 0.58rem 0.75rem;
+            font-family: var(--font-family);
+            font-size: 0.94rem;
+            line-height: 1.4;
+            color: var(--font-color);
+            background-color: #ffffff;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="search"]:focus,
+        select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(3, 102, 238, 0.15);
+        }
+
+        /* Primitive Flex Grid */
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-left: -0.75rem;
+            margin-right: -0.75rem;
+        }
+
+        .flex-small,
+        .flex-large {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            flex-basis: 100%;
+        }
+
+        @media (min-width: 600px) {
+            .flex-small {
+                flex: 1;
+            }
+        }
+
+        @media (min-width: 1000px) {
+            .flex-large {
+                flex: 1;
+            }
+        }
+
+        /* Primitive Tables */
+        .contain-table {
+            overflow-x: auto;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: #ffffff;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        thead th {
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+            padding: 0.72rem 0.85rem;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            background: var(--light-background);
+            white-space: nowrap;
+        }
+
+        tbody td {
+            border-bottom: 1px solid var(--border-light);
+            padding: 0.7rem 0.85rem;
+            font-size: 0.89rem;
+            vertical-align: middle;
+        }
+
+        .striped-table tbody tr:nth-child(odd) {
+            background-color: var(--light-background);
+        }
+
+        .striped-table tbody tr:hover {
+            background-color: #eef5ff;
+        }
+
+        /* ==================== APPLICATION SPECIFIC LAYOUT ==================== */
+        .site-header {
+            background: var(--light-background);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2.1rem 0 1.85rem;
+            margin-bottom: 1.65rem;
+        }
+
+        .header-top {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1.25rem;
+        }
+
+        .site-kicker {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary-color);
+            margin-bottom: 0.35rem;
+        }
+
+        .callout-52 {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1.1rem;
+            margin-top: 0.8rem;
+            max-width: 820px;
+        }
+
+        .callout-52 strong {
+            color: var(--heading-color);
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .callout-52 span {
+            font-size: 0.9rem;
+            color: var(--font-color);
+        }
+
+        /* Filter & Alphabet Panel */
+        .filter-panel {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.15rem 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .category-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.9rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .alpha-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.85rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .alpha-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-right: 0.35rem;
+        }
+
+        .alpha-btn {
+            min-width: 2rem;
+            padding: 0.28rem 0.45rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: #ffffff;
+            color: var(--font-color);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.12s ease;
+        }
+
+        .alpha-btn:hover:not(:disabled) {
+            background: var(--light-background);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .alpha-btn.is-active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .alpha-btn:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            background: var(--light-background);
+        }
+
+        /* Catalog Toolbar */
+        .catalog-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 1.15rem;
+        }
+
+        .view-toggle-group {
+            display: inline-flex;
+            gap: 0.35rem;
+        }
+
+        /* Cards Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        @media (min-width: 640px) {
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 980px) {
+            .games-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .game-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .game-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .card-header-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.55rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.74rem;
+            font-weight: 600;
+            padding: 0.18rem 0.52rem;
+            border-radius: var(--border-radius);
+            background: #eef5ff;
+            color: var(--primary-color);
+            border: 1px solid #cce0ff;
+        }
+
+        .badge-accent {
+            background: #e6fffa;
+            color: #0d7364;
+            border: 1px solid #99f6e4;
+        }
+
+        .badge-muted {
+            background: var(--light-background);
+            color: var(--muted-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .suit-symbol {
+            font-size: 1.15rem;
+            line-height: 1;
+        }
+
+        .suit-red { color: #d62828; }
+        .suit-black { color: #2b2b2b; }
+
+        .game-aliases {
+            font-size: 0.8rem;
+            color: var(--muted-color);
+            font-style: italic;
+            margin-bottom: 0.35rem;
+        }
+
+        .game-origin {
+            font-size: 0.82rem;
+            color: var(--muted-color);
+            margin-bottom: 0.6rem;
+        }
+
+        .game-summary {
+            font-size: 0.91rem;
+            color: var(--font-color);
+            margin-bottom: 0.85rem;
+        }
+
+        .prep-52-mini {
+            background: var(--light-background);
+            border: 1px solid var(--border-light);
+            border-left: 3px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 0.55rem 0.7rem;
+            font-size: 0.81rem;
+            color: var(--font-color);
+            margin-bottom: 0.95rem;
+        }
+
+        .prep-52-mini strong {
+            color: var(--heading-color);
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-light);
+            margin-top: auto;
+        }
+
+        .meta-specs {
+            font-size: 0.79rem;
+            color: var(--muted-color);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border: 1px dashed var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--light-background);
+        }
+
+        /* Accessible Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 20, 20, 0.58);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 1000;
+        }
+
+        .modal-overlay[hidden] {
+            display: none;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--light-background);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .modal-body {
+            padding: 1.45rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 0.85rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--light-background);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.65rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            background: var(--light-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        @media (min-width: 600px) {
+            .specs-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .spec-item span {
+            display: block;
+            font-size: 0.73rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--muted-color);
+            font-weight: 700;
+        }
+
+        .spec-item strong {
+            font-size: 0.9rem;
+            color: var(--heading-color);
+        }
+
+        .modal-prep-box {
+            background: #e6fffa;
+            border: 1px solid #99f6e4;
+            border-left: 4px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1.05rem;
+            margin-bottom: 1.3rem;
+        }
+
+        .modal-prep-box h4 {
+            color: #0d7364;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .modal-prep-box p {
+            margin-bottom: 0;
+            font-size: 0.91rem;
+            color: #134e4a;
+        }
+
+        .rule-section {
+            margin-bottom: 1.2rem;
+        }
+
+        .rule-section h3 {
+            font-size: 1.06rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 0.55rem;
+        }
+
+        .rule-section ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .rule-section li {
+            margin-bottom: 0.42rem;
+        }
+
+        .site-footer {
+            margin-top: 3rem;
+            padding: 1.75rem 0;
+            border-top: 1px solid var(--border-color);
+            background: var(--light-background);
+            font-size: 0.86rem;
+            color: var(--muted-color);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-top">
+                <div>
+                    <span class="site-kicker">♠ ♥ ♦ ♣ Répertoire Alphabétique &amp; Règles Complètes</span>
+                    <h1>L'Encyclopédie des Jeux de Cartes Classiques</h1>
+                    <div class="callout-52">
+                        <strong>Tous les jeux répertoriés sont jouables exclusivement avec 1 ou 2 jeux traditionnels de 52/54 cartes (sans cartes spéciales, atouts dédiés ni plateau).</strong>
+                        <span>Les variantes en 24, 32, 36, 40 ou 48 cartes s'obtiennent simplement en écartant certaines valeurs de votre paquet standard.</span>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="button accent-button" onclick="drawRandomGame()">
+                        🎲 Piocher un jeu au hasard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="container">
+
+        <!-- Search, Filters & Alphabet Index -->
+        <section class="filter-panel" aria-label="Filtres et index alphabétique">
+            <div class="flex-row">
+                <div class="flex-large" style="margin-bottom: 0.65rem;">
+                    <label for="searchInput">Rechercher par nom, variante, origine ou règle</label>
+                    <input type="search" id="searchInput" oninput="applyFilters()" placeholder="Ex : Belote, Gin Rami, Spider, 32 cartes, solo, bluff, Italie...">
+                </div>
+                <div class="flex-small" style="margin-bottom: 0.65rem;">
+                    <label for="playerFilter">Nombre de joueurs</label>
+                    <select id="playerFilter" onchange="applyFilters()">
+                        <option value="all">Tous les effectifs</option>
+                        <option value="1">1 joueur (Solo)</option>
+                        <option value="2">2 joueurs (Duel)</option>
+                        <option value="3-4">3 à 4 joueurs</option>
+                        <option value="5+">5 joueurs et plus</option>
+                    </select>
+                </div>
+                <div class="flex-small" style="margin-bottom: 0.65rem;">
+                    <label for="deckFilter">Matériel requis</label>
+                    <select id="deckFilter" onchange="applyFilters()">
+                        <option value="all">1 ou 2 jeux (Tous)</option>
+                        <option value="1-deck">1 jeu de 52/54 cartes (ou extrait)</option>
+                        <option value="2-decks">2 jeux de 52/54 cartes</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Filter Buttons -->
+            <div class="category-pills" role="tablist" aria-label="Catégories">
+                <button type="button" class="muted-button small-button round-button is-active" data-cat="all" onclick="setCategory('all', this)">
+                    Toutes les catégories (<span id="count-all">75</span>)
+                </button>
+                <button type="button" class="muted-button small-button round-button" data-cat="Levées & Plis" onclick="setCategory('Levées & Plis', this)">
+                    Levées &amp; Plis
+                </button>
+                <button type="button" class="muted-button small-button round-button" data-cat="Défausse & Combinaisons" onclick="setCategory('Défausse & Combinaisons', this)">
+                    Défausse &amp; Combinaisons
+                </button>
+                <button type="button" class="muted-button small-button round-button" data-cat="Casino & Bluff" onclick="setCategory('Casino & Bluff', this)">
+                    Casino &amp; Bluff
+                </button>
+                <button type="button" class="muted-button small-button round-button" data-cat="Duel & Réflexes" onclick="setCategory('Duel & Réflexes', this)">
+                    Duel &amp; Réflexes
+                </button>
+                <button type="button" class="muted-button small-button round-button" data-cat="Adaptations 52 cartes" onclick="setCategory('Adaptations 52 cartes', this)">
+                    Adaptations 52 cartes
+                </button>
+                <button type="button" class="muted-button small-button round-button" data-cat="Solitaires & Réussites" onclick="setCategory('Solitaires & Réussites', this)">
+                    Solitaires &amp; Réussites
+                </button>
+            </div>
+
+            <!-- Quick A-Z / 0-9 Alphabetical Index -->
+            <div class="alpha-bar" id="alphaBar" aria-label="Index alphabétique rapide"></div>
+        </section>
+
+        <!-- Catalog Toolbar -->
+        <div class="catalog-toolbar">
+            <div>
+                <span style="font-size: 0.92rem; color: var(--muted-color);">
+                    Affichage de <strong id="visibleCount" style="color: var(--heading-color);">75</strong> jeu(x) triés par ordre alphabétique
+                </span>
+                <button type="button" id="resetFiltersBtn" class="muted-button small-button hidden" style="margin-left: 0.65rem;" onclick="resetAllFilters()">
+                    Réinitialiser les filtres
+                </button>
+            </div>
+
+            <div class="view-toggle-group" role="group" aria-label="Mode d'affichage">
+                <button type="button" id="btnViewCards" class="muted-button small-button is-active" onclick="setViewMode('cards')">
+                    Vue Cartes
+                </button>
+                <button type="button" id="btnViewTable" class="muted-button small-button" onclick="setViewMode('table')">
+                    Vue Tableau
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards View -->
+        <section id="cardsView" class="games-grid" aria-live="polite"></section>
+
+        <!-- Table View (Primitive .striped-table .contain-table) -->
+        <section id="tableView" class="contain-table hidden" aria-live="polite">
+            <table class="striped-table">
+                <thead>
+                    <tr>
+                        <th>Jeu</th>
+                        <th>Catégorie</th>
+                        <th>Joueurs</th>
+                        <th>Paquet</th>
+                        <th>Préparation 52 cartes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </section>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state hidden">
+            <h3>Aucun jeu ne correspond à ces critères</h3>
+            <p style="color: var(--muted-color); max-width: 480px; margin: 0 auto 1.1rem;">
+                Modifiez votre recherche ou réinitialisez les filtres pour retrouver l'ensemble des 75 jeux.
+            </p>
+            <button type="button" class="button" onclick="resetAllFilters()">Afficher les 75 jeux</button>
+        </div>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="site-footer">
+        <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem;">
+            <div>
+                <strong>L'Encyclopédie des Jeux de Cartes Classiques</strong> — 75 jeux classés par ordre alphabétique
+            </div>
+            <div>
+                Design <em>Primitive UI</em> • Jouable exclusivement avec 1 ou 2 jeux de 52/54 cartes
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL: DETAILED RULES ==================== -->
+    <div id="gameModal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="handleBackdropClick(event)">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; margin-bottom: 0.35rem;">
+                        <span id="modalSuit" class="suit-symbol">♠</span>
+                        <span id="modalCategoryBadge" class="badge">Catégorie</span>
+                        <span id="modalOrigin" class="badge badge-muted">Origine</span>
+                        <span id="modalIndexBadge" class="badge badge-accent">#1 / 75</span>
+                    </div>
+                    <h2 id="modalTitle" style="margin-bottom: 0.15rem;">Nom du jeu</h2>
+                    <div id="modalAliases" class="game-aliases" style="margin-bottom: 0;"></div>
+                </div>
+                <button type="button" class="muted-button small-button" onclick="closeModal()" aria-label="Fermer la fenêtre">
+                    ✕ Fermer
+                </button>
+            </div>
+
+            <div class="modal-body" id="modalBody">
+                <!-- Specs -->
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span>Joueurs</span>
+                        <strong id="modalPlayers">2 à 4</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Matériel</span>
+                        <strong id="modalDeck">1 jeu de 52 cartes</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Durée moyenne</span>
+                        <strong id="modalDuration">20 min</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Origine</span>
+                        <strong id="modalOriginSpec">France</strong>
+                    </div>
+                </div>
+
+                <!-- 52-card Preparation -->
+                <div class="modal-prep-box">
+                    <h4>🃏 Préparation avec un jeu de 52/54 cartes</h4>
+                    <p id="modalPrep52"></p>
+                </div>
+
+                <!-- 1. But du jeu -->
+                <div class="rule-section">
+                    <h3>1. But du jeu</h3>
+                    <p id="modalGoal"></p>
+                </div>
+
+                <!-- 2. Mise en place -->
+                <div class="rule-section">
+                    <h3>2. Mise en place &amp; Distribution</h3>
+                    <p id="modalSetup"></p>
+                </div>
+
+                <!-- 3. Règles complètes -->
+                <div class="rule-section">
+                    <h3>3. Déroulement, Ordre des cartes &amp; Décompte</h3>
+                    <div id="modalRules"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">
+                    <button type="button" id="btnPrevGame" class="muted-button small-button" onclick="navigateModal(-1)">
+                        ← Jeu précédent
+                    </button>
+                    <button type="button" id="btnNextGame" class="muted-button small-button" onclick="navigateModal(1)">
+                        Jeu suivant →
+                    </button>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">
+                    <button type="button" class="button accent-button small-button" onclick="drawRandomGame()">
+                        🎲 Autre jeu au hasard
+                    </button>
+                    <button type="button" class="button small-button" onclick="closeModal()">
+                        Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== COMPLETE 75 GAMES DATABASE & ENGINE ==================== -->
+    <script>
+        const RAW_GAMES_DATA = [
+            {
+                title: "500",
+                aliases: "Five Hundred, Bid Euchre étendu",
+                category: "Levées & Plis",
+                players: "2 à 6 joueurs (idéal à 4 en équipes)",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 54 cartes (43 cartes utilisées à 4)",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "États-Unis / Australie",
+                prep52: "À 4 joueurs : gardez 1 Joker, les 4 As, Rois, Dames, Valets, 10, 9, 8, 7, 6, 5 et les deux 4 Rouges (4♥, 4♦) = 43 cartes.",
+                goal: "Être la première équipe à atteindre 500 points (ou faire chuter l'adversaire à -500 points) en remportant son contrat de plis.",
+                setup: "Distribuez 10 cartes à chaque joueur et placez 3 cartes face cachée au centre pour former le « Kitty » (écart). Un seul tour d'enchères détermine le contrat (de 6 à 10 levées) et la couleur d'atout (ou Sans Atout / Misère).",
+                rules: [
+                    "<strong>Hiérarchie à l'Atout :</strong> Joker (carte la plus forte) > Valet d'atout (Right Bower) > Valet de la même couleur visuelle (Left Bower) > As > Roi > Dame > 10 ... > 4.",
+                    "<strong>Jeu de la carte :</strong> Le preneur intègre les 3 cartes du Kitty et écarte 3 cartes. Obligation de fournir la couleur demandée ; à défaut, coupe ou défausse libre.",
+                    "<strong>Décompte :</strong> Les contrats valent de 40 pts (6 Piques) jusqu'à 520 pts (10 Sans Atout). Réussir son contrat rapporte sa valeur exacte ; chuter retire la valeur du contrat."
+                ]
+            },
+            {
+                title: "8 Américain",
+                aliases: "Crazy Eights, Switch, Mau-Mau",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "États-Unis / International",
+                prep52: "Utilisez le paquet standard complet de 52 cartes (retirez les Jokers).",
+                goal: "Être le premier joueur à se débarrasser de toutes les cartes de sa main.",
+                setup: "Distribuez 8 cartes à chacun (7 cartes à partir de 5 joueurs). Placez le reste au centre en pioche et retournez la première carte pour lancer la défausse.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> Posez une carte de même enseigne ou de même hauteur que la carte visible de la défausse. Si vous ne pouvez pas jouer, piochez 1 carte.",
+                    "<strong>Cartes spéciales :</strong> Le <strong>8</strong> se joue sur n'importe quelle carte et impose une nouvelle enseigne ; le <strong>2</strong> fait piocher 2 cartes au joueur suivant ; le <strong>Valet</strong> fait passer le tour ; le <strong>10</strong> inverse le sens de rotation.",
+                    "<strong>Décompte :</strong> Le gagnant marque 0 pt. Les adversaires comptent les points de leur main : 8 = 32 pts, Figures = 10 pts, autres cartes = valeur faciale (As = 1 pt)."
+                ]
+            },
+            {
+                title: "99",
+                aliases: "Ninety-Nine, Le Quatre-vingt-dix-neuf",
+                category: "Défausse & Combinaisons",
+                players: "3 à 5 joueurs",
+                playerTags: ["3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker) ainsi que 3 jetons (vies) par joueur.",
+                goal: "Rester le dernier joueur en lice en posant des cartes qui augmentent le pot commun sans jamais dépasser le total de 99.",
+                setup: "Chaque joueur reçoit 3 jetons de vie et 3 cartes en main. Le compteur central démarre à 0.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> Posez 1 carte face visible au centre, annoncez à voix haute le nouveau total cumulé, puis piochez 1 carte pour revenir à 3 cartes en main.",
+                    "<strong>Valeurs & Cartes spéciales :</strong> As = +1 ou +11 ; 2 à 8 = valeur faciale ; <strong>9</strong> = +0 (passe) ; <strong>10</strong> = -10 ; <strong>Valet</strong> = +10 ; <strong>Dame</strong> = +10 et inverse le sens ; <strong>Roi</strong> = fixe immédiatement le total à 99.",
+                    "<strong>Élimination :</strong> Un joueur incapable de poser une carte maintenant le total ≤ 99 perd 1 jeton et on relance une manche à 0."
+                ]
+            },
+            {
+                title: "Accordéon",
+                aliases: "Accordion Patience, Le Serpent",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "Europe",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Réunir l'intégralité des 52 cartes en une seule et unique pile en comprimant la ligne de cartes comme un accordéon.",
+                setup: "Tirez les cartes une à une de votre paquet et alignez-les de gauche à droite face visible sur la table.",
+                rules: [
+                    "<strong>Règle d'empilement :</strong> Une pile peut être déplacée sur sa voisine immédiate à gauche OU sur la 3e pile à sa gauche si leurs cartes supérieures partagent la <strong>même enseigne</strong> ou la <strong>même hauteur</strong>.",
+                    "<strong>Compression :</strong> Dès qu'un vide apparaît dans la ligne, décalez toutes les piles de droite vers la gauche pour combler l'espace.",
+                    "<strong>Victoire :</strong> La partie est gagnée si toutes les cartes finissent sur un seul tas après épuisement du paquet."
+                ]
+            },
+            {
+                title: "Aces Up",
+                aliases: "Les As en haut, Idiot's Delight",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "3–5 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Éliminer toutes les cartes du jeu à l'exception des 4 As (1 As au sommet de chacune des 4 colonnes).",
+                setup: "Distribuez 4 cartes face visible côte à côte pour amorcer 4 colonnes. Conservez les 48 cartes restantes en talon.",
+                rules: [
+                    "<strong>Élimination :</strong> Si deux cartes visibles au sommet de deux colonnes sont de la <strong>même enseigne</strong>, vous pouvez défausser la plus faible (l'As étant la carte la plus forte).",
+                    "<strong>Colonnes vides :</strong> Lorsqu'une colonne est vide, vous pouvez y déplacer la carte du sommet de n'importe quelle autre colonne.",
+                    "<strong>Distribution :</strong> Quand plus aucun retrait n'est possible, distribuez 4 nouvelles cartes (1 par colonne) depuis le talon jusqu'à son épuisement."
+                ]
+            },
+            {
+                title: "Ascenseur",
+                aliases: "Whist à l'Ascenseur, Oh Hell!, Rikiki",
+                category: "Levées & Plis",
+                players: "3 à 7 joueurs",
+                playerTags: ["3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "25–40 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Réaliser à chaque manche le nombre exact de plis que l'on a parié avant de jouer.",
+                setup: "On distribue 1 carte à chacun à la 1re donne, 2 à la 2e, jusqu'au maximum possible (ex : 10 cartes à 4 joueurs), puis on redescend jusqu'à 1 carte. La carte suivante retournée désigne l'atout.",
+                rules: [
+                    "<strong>Annonces :</strong> Chacun annonce le nombre de levées qu'il compte faire (0 ou plus). Le donneur n'a pas le droit d'annoncer un chiffre rendant la somme des paris égale au nombre de plis en jeu.",
+                    "<strong>Jeu de la carte :</strong> Obligation de fournir la couleur demandée ; à défaut, coupe à l'atout ou défausse libre. Hiérarchie : As > Roi > Dame > Valet > 10 ... > 2.",
+                    "<strong>Décompte :</strong> Contrat exact = 10 pts + 1 pt par pli réalisé. Contrat raté = 0 pt (ou -1 pt par pli d'écart selon variante)."
+                ]
+            },
+            {
+                title: "Asec",
+                aliases: "A-sec, Jeu de défausse burkinabé",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 32 cartes (ou 2 jeux = 64 cartes)",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "Burkina Faso",
+                prep52: "À 2–4 joueurs : retirez les 2, 3, 4, 5 et 6 de votre jeu de 52 cartes (32 cartes du 7 à l'As). À 5–6 joueurs : réunissez deux jeux de 32 cartes (64 cartes).",
+                goal: "Vider intégralement sa main en premier en jouant des cartes de même enseigne ou de même rang.",
+                setup: "Distribuez 5 cartes à chaque joueur. Posez le talon au centre et retournez 1 carte pour ouvrir la pile de jeu.",
+                rules: [
+                    "<strong>Pose :</strong> À tour de rôle, posez une carte de même enseigne ou de même hauteur que la carte visible. À défaut, piochez 1 carte.",
+                    "<strong>Cartes d'attaque :</strong> Le <strong>7</strong> oblige le suivant à piocher 2 cartes (cumulable avec un autre 7) ; l'<strong>As</strong> fait sauter le tour du joueur suivant ; le <strong>Valet</strong> permet de changer d'enseigne à tout moment.",
+                    "<strong>Annonce :</strong> Lorsqu'il ne reste qu'une seule carte en main, le joueur doit annoncer « Carte ! » ou « Asec ! » avant que le suivant ne joue, sous peine de piocher 2 cartes de pénalité."
+                ]
+            },
+            {
+                title: "Baker's Dozen",
+                aliases: "La Douzaine du Boulanger",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "Angleterre",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Construire les 4 piles de fondation de l'As au Roi par enseigne.",
+                setup: "Distribuez toutes les 52 cartes face visible en 13 colonnes de 4 cartes chacune. Placez immédiatement tous les Rois au fond (tout en haut) de leur colonne respective avant de commencer.",
+                rules: [
+                    "<strong>Information parfaite :</strong> Toutes les cartes sont visibles dès le départ (aucune pioche).",
+                    "<strong>Déplacements :</strong> Déplacez uniquement la carte libre au bas d'une colonne sur une autre colonne en ordre décroissant (indépendamment de l'enseigne, ex : un 7 sur un 8).",
+                    "<strong>Colonnes vides :</strong> Une colonne vidée ne peut plus jamais être réoccupée."
+                ]
+            },
+            {
+                title: "Barbu",
+                aliases: "Le Roi de Cœur, Tafferan",
+                category: "Levées & Plis",
+                players: "4 joueurs",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 52 cartes (ou 32 extraites)",
+                deckFilter: "1-deck",
+                duration: "35–50 min",
+                origin: "France",
+                prep52: "Utilisez les 52 cartes complètes (13 cartes par joueur) ou 32 cartes extraites du 7 à l'As (8 cartes par joueur).",
+                goal: "Obtenir le score total le plus élevé après que chacun des 4 joueurs a été tour à tour donneur et a choisi l'ensemble des 7 contrats.",
+                setup: "Chaque joueur choisit à son tour le contrat de la donne parmi les 7 contrats disponibles (chaque joueur doit jouer chaque contrat une fois au cours de la partie).",
+                rules: [
+                    "<strong>5 Contrats négatifs :</strong> <em>Sans Plis</em> (-5 pts/pli), <em>Sans Cœurs</em> (-5 pts/Cœur), <em>Sans Dames</em> (-15 pts/Dame), <em>Le Barbu</em> (-40 pts pour le Roi de Cœur), <em>Dernier Pli</em> (-30 pts).",
+                    "<strong>2 Contrats positifs :</strong> <em>L'Atout</em> (+10 pts par pli fait avec un atout désigné) et <em>La Réussite</em> (étaler les cartes en suites par enseigne autour d'une carte pivot : +40 pts au 1er fini, +20 au 2e).",
+                    "<strong>Jeu de la carte :</strong> Fourniture obligatoire de l'enseigne demandée."
+                ]
+            },
+            {
+                title: "Bataille",
+                aliases: "War, Bataille classique",
+                category: "Duel & Réflexes",
+                players: "2 à 4 joueurs",
+                playerTags: ["2", "3-4"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–20 min",
+                origin: "France / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Capturer l'intégralité des 52 cartes du jeu.",
+                setup: "Distribuez les 52 cartes face cachée en tas égaux entre les joueurs. Personne ne regarde son paquet.",
+                rules: [
+                    "<strong>Affrontement :</strong> Tous les joueurs retournent simultanément la carte supérieure de leur paquet.",
+                    "<strong>Hiérarchie :</strong> As > Roi > Dame > Valet > 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2. La carte la plus forte remporte le pli.",
+                    "<strong>Bataille :</strong> En cas d'égalité sur la plus haute carte, les joueurs concernés posent 1 carte face cachée puis 1 nouvelle carte face visible pour départager le lot."
+                ]
+            },
+            {
+                title: "Bataille Corse",
+                aliases: "Bataille Fracassante, Egyptian Ratscrew",
+                category: "Duel & Réflexes",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "France / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Remporter toutes les cartes en combinant défis des figures et réflexes de frappe sur le tas.",
+                setup: "Distribuez toutes les cartes face cachée en tas égaux devant les joueurs.",
+                rules: [
+                    "<strong>Défi des Figures :</strong> Lorsqu'une figure est retournée, le joueur suivant doit sortir une figure en 1 carte (Valet), 2 cartes (Dame), 3 cartes (Roi) ou 4 cartes (As). S'il échoue, le poseur de la figure ramasse le tas ; s'il sort une figure avant, le défi passe au suivant.",
+                    "<strong>Claques de réflexe :</strong> À tout moment, le premier joueur qui tape la main sur la pile centrale la remporte s'il apparaît une <strong>Paire</strong> (deux cartes identiques d'affilée) ou un <strong>Sandwich</strong> (deux cartes identiques séparées par une carte).",
+                    "<strong>Pénalité :</strong> Taper par erreur oblige à glisser 2 cartes de pénalité sous le tas central."
+                ]
+            },
+            {
+                title: "Belote",
+                aliases: "Belote classique",
+                category: "Levées & Plis",
+                players: "4 joueurs (équipes de 2)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 32 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "France",
+                prep52: "Retirez les 2, 3, 4, 5 et 6 des quatre enseignes de votre jeu de 52 cartes pour obtenir 32 cartes (du 7 à l'As).",
+                goal: "Être la première équipe à atteindre 1 000 points.",
+                setup: "Distribuez 5 cartes à chacun (3 + 2) et retournez la carte suivante au centre. Après le choix de l'atout (au 1er tour dans la couleur retournée, ou au 2e tour dans une autre couleur), distribuez le reste (2 cartes au preneur, 3 aux autres).",
+                rules: [
+                    "<strong>Valeurs à l'Atout :</strong> Valet (20 pts), 9 (14), As (11), 10 (10), Roi (4), Dame (3), 8 (0), 7 (0).",
+                    "<strong>Valeurs hors Atout :</strong> As (11), 10 (10), Roi (4), Dame (3), Valet (2), 9, 8, 7 (0). Dernier pli (« dix de der ») = +10 pts (Total = 162 pts).",
+                    "<strong>Obligations & Belote :</strong> Fournir la couleur demandée ; à défaut, couper (sauf si le partenaire est maître) et surcouper. Roi + Dame d'atout dans la même main = +20 pts (« Belote-Rebelote »)."
+                ]
+            },
+            {
+                title: "Bésigue",
+                aliases: "Bezique, Bésigue à 64 cartes",
+                category: "Levées & Plis",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "2 jeux de 32 cartes (64 cartes issues de 2×52)",
+                deckFilter: "2-decks",
+                duration: "30–45 min",
+                origin: "France (XIXe siècle)",
+                prep52: "Prenez deux jeux de 52 cartes et retirez les 2, 3, 4, 5 et 6 de chacun d'eux pour obtenir deux paquets de 32 cartes réunis (64 cartes du 7 à l'As).",
+                goal: "Atteindre 1 000 points en déclarant des combinaisons lors des plis gagnés et en capturant les As et les 10.",
+                setup: "Distribuez 8 cartes à chaque joueur (3 + 2 + 3). Retournez la 17e carte pour fixer l'atout et posez le reste en talon.",
+                rules: [
+                    "<strong>Phase 1 (Talon présent) :</strong> Aucune obligation de fournir la couleur ni de couper ! Le vainqueur d'un pli peut étaler une combinaison devant lui avant de piocher 1 carte (suivi par l'adversaire). Hiérarchie : As (10 pts) > 10 (10 pts) > Roi > Dame > Valet > 9 > 8 > 7.",
+                    "<strong>Combinaisons :</strong> Mariage (Roi+Dame = 20 pts, 40 à l'atout), <strong>Bésigue</strong> (Dame de Pique + Valet de Carreau = 40 pts ; Double Bésigue = 500 pts), Séquence d'atout (A-10-R-D-V = 250 pts), Carré d'As (100), Rois (80), Dames (60), Valets (40).",
+                    "<strong>Phase 2 (Talon épuisé) :</strong> Obligation stricte de fournir la couleur demandée, de monter et de couper à l'atout."
+                ]
+            },
+            {
+                title: "Blackjack",
+                aliases: "Vingt-et-Un, 21",
+                category: "Casino & Bluff",
+                players: "2 à 7 joueurs (1 Croupier)",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–30 min",
+                origin: "France / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Obtenir un total de points supérieur à celui du Croupier sans jamais dépasser 21.",
+                setup: "Chaque joueur reçoit 2 cartes face visible ; le Croupier reçoit 1 carte visible et 1 carte cachée. Valeurs : 2–10 = valeur faciale, Figures = 10 pts, As = 1 ou 11 pts.",
+                rules: [
+                    "<strong>Blackjack :</strong> Un As + une carte valant 10 dès les 2 premières cartes totalise 21 d'emblée.",
+                    "<strong>Actions du joueur :</strong> <em>Tirer</em> une carte, <em>Rester</em>, <em>Doubler</em> sa mise pour 1 seule carte supplémentaire, ou <em>Partager (Split)</em> une paire en deux mains séparées.",
+                    "<strong>Règle de la banque :</strong> Le Croupier révèle sa carte cachée et tire obligatoirement jusqu'à atteindre au moins 17 points."
+                ]
+            },
+            {
+                title: "Bourre",
+                aliases: "La Bourre occitane",
+                category: "Levées & Plis",
+                players: "2 à 8 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 32 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "Occitanie / Sud-Ouest de la France",
+                prep52: "Retirez les 2, 3, 4, 5 et 6 de votre jeu de 52 cartes pour conserver 32 cartes (du 7 à l'As).",
+                goal: "Remporter au moins 1 pli sur les 5 de la donne pour partager le pot et éviter d'être « bourré ».",
+                setup: "Chaque joueur dépose une mise de base dans le pot. Distribuez 5 cartes à chacun (ordre : As > Roi > Dame > Valet > 10 > 9 > 8 > 7) et retournez l'atout.",
+                rules: [
+                    "<strong>Marcher ou Passer :</strong> Chacun annonce s'il joue (« je marche ») ou se couche (« je passe »). Les joueurs qui marchent peuvent échanger jusqu'à 3 cartes au talon.",
+                    "<strong>Jeu des 5 plis :</strong> Obligation stricte de fournir la couleur, de monter si possible, et de couper/surcouper à l'atout.",
+                    "<strong>Être Bourré :</strong> Tout joueur qui a marché mais n'a remporté <em>aucun pli</em> doit doubler le pot pour la donne suivante."
+                ]
+            },
+            {
+                title: "Brawl (adaptation 52 cartes)",
+                aliases: "Brawl 52, Duel en temps réel",
+                category: "Adaptations 52 cartes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5–10 min",
+                origin: "Adaptation moderne (Projet 52 Cartes)",
+                prep52: "Chaque joueur utilise une moitié de 26 cartes (Joueur 1 : les 26 cartes Rouges ♥♦ ; Joueur 2 : les 26 cartes Noires ♠♣). As = Base, 2 à 7 = Coups, 8 à 10 = Blocages, Valet/Dame = Contres, Roi = Gel (Freeze).",
+                goal: "Remporter le contrôle de la majorité des Bases (As) au centre de la table en temps réel, sans tour de jeu.",
+                setup: "Chaque joueur mélange son paquet de 26 cartes et place son premier As face visible au centre pour créer deux Bases. Tous deux jouent simultanément à toute vitesse.",
+                rules: [
+                    "<strong>Action simultanée :</strong> Piochez dans votre paquet personnel et posez des cartes d'attaque (2 à 7) de votre côté d'une Base, en ordre croissant (ex : 2, puis 4, puis 7) ou de même valeur.",
+                    "<strong>Blocages & Contres :</strong> Posez un 8, 9 ou 10 sur la pile adverse d'une Base pour la verrouiller ; un Valet ou une Dame annule un blocage ou détruit la carte supérieure adverse.",
+                    "<strong>Fin de partie :</strong> Dès qu'un joueur a épuisé son paquet, il peut poser un Roi (Freeze) sur une Base pour la clôturer définitivement. Le joueur ayant le plus de points sur chaque Base la remporte."
+                ]
+            },
+            {
+                title: "Bridge",
+                aliases: "Bridge Contrat",
+                category: "Levées & Plis",
+                players: "4 joueurs (2 paires)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "45–90 min",
+                origin: "Angleterre / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Réaliser le contrat de levées (6 + palier annoncé de 1 à 7) engagé lors des enchères.",
+                setup: "Distribuez les 52 cartes (13 par joueur). Les partenaires se font face (Nord-Sud contre Est-Ouest). Aucun point de carte ne compte : seul le nombre de plis importe.",
+                rules: [
+                    "<strong>Enchères :</strong> Les paliers vont de 1 (7 plis) à 7 (13 plis). Hiérarchie : Trèfle < Carreau < Cœur < Pique < Sans-Atout.",
+                    "<strong>Le Mort :</strong> Après l'entame du flanc gauche, le partenaire du Déclarant étale ses 13 cartes face visible : le Déclarant joue les deux mains.",
+                    "<strong>Fourniture & Décompte :</strong> Obligation de fournir la couleur demandée (pas d'obligation de couper ni monter). Chaque pli au-delà de 6 vaut 20 pts (♣/♦), 30 pts (♥/♠) ou 40 pts pour le 1er à Sans-Atout."
+                ]
+            },
+            {
+                title: "Briscola",
+                aliases: "La Brisque, Briscola italienne",
+                category: "Levées & Plis",
+                players: "2 à 6 joueurs (idéal à 2 ou 4)",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 40 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "Italie",
+                prep52: "Retirez les 8, 9 et 10 des quatre enseignes de votre jeu de 52 cartes pour obtenir 40 cartes (As, 2–7, Valet, Dame, Roi).",
+                goal: "Totaliser plus de 60 points sur les 120 points de cartes en jeu.",
+                setup: "Distribuez 3 cartes à chaque joueur. Retournez la carte suivante face visible sous le talon pour indiquer la couleur d'atout (« Briscola »).",
+                rules: [
+                    "<strong>Hiérarchie et Valeurs :</strong> As (11 pts) > 3 (10 pts) > Roi (4 pts) > Dame (3 pts) > Valet (2 pts) > 7, 6, 5, 4, 2 (0 pt). Total = 120 points.",
+                    "<strong>Liberté totale de jeu :</strong> Aucune obligation de fournir la couleur demandée ni de couper ! Le pli revient au plus fort atout joué, ou à défaut à la plus forte carte de la couleur d'entame.",
+                    "<strong>Pioche :</strong> Après chaque pli, le vainqueur pioche 1 carte en premier, suivi des autres joueurs, jusqu'à épuisement du talon (la carte d'atout visible étant piochée en dernier)."
+                ]
+            },
+            {
+                title: "Bumbayakeke",
+                aliases: "Bumba, Jeu de suites colorées",
+                category: "Défausse & Combinaisons",
+                players: "2 à 5 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 54 cartes (avec Jokers)",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "Afrique / Francophonie",
+                prep52: "Utilisez le paquet complet de 52 cartes + les 2 Jokers (54 cartes).",
+                goal: "Se débarrasser de toutes ses cartes en construisant des séquences ascendantes ou descendantes sur la table.",
+                setup: "Distribuez 7 cartes à chaque joueur. Placez le talon au centre et retournez 1 carte pour amorcer la pile centrale.",
+                rules: [
+                    "<strong>Enchaînement :</strong> À votre tour, posez une carte de même enseigne dont la valeur est immédiatement supérieure (+1) ou inférieure (-1) à la carte visible (boucle Roi-As autorisée), OU une carte de même hauteur.",
+                    "<strong>Multi-pose :</strong> Si vous possédez une suite consécutive en main (ex : 6♥, 7♥, 8♥), vous pouvez poser toute la série d'un seul coup !",
+                    "<strong>Jokers & Pioche :</strong> Les Jokers remplacent n'importe quelle carte et permettent d'imposer l'enseigne suivante. À défaut de pouvoir jouer, piochez 1 carte."
+                ]
+            },
+            {
+                title: "Calcul",
+                aliases: "Calculation, Broken Intervals",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "Angleterre / Europe",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Monter toutes les cartes sur 4 fondations progressant respectivement par pas de +1, +2, +3 et +4 jusqu'au Roi.",
+                setup: "Extrayez du paquet un <strong>As</strong>, un <strong>2</strong>, un <strong>3</strong> et un <strong>4</strong> (peu importe l'enseigne) et alignez-les en haut comme 4 bases. Réservez 4 emplacements de défausse libres en dessous.",
+                rules: [
+                    "<strong>Séquences arithmétiques (sans tenir compte de l'enseigne, modulo 13) :</strong><br>• Pile 1 (+1) : A, 2, 3, 4, 5, 6, 7, 8, 9, 10, V, D, R.<br>• Pile 2 (+2) : 2, 4, 6, 8, 10, D, A, 3, 5, 7, 9, V, R.<br>• Pile 3 (+3) : 3, 6, 9, D, 2, 5, 8, V, A, 4, 7, 10, R.<br>• Pile 4 (+4) : 4, 8, D, 3, 7, V, 2, 6, 10, A, 5, 9, R.",
+                    "<strong>Gestion des 4 défausses :</strong> Tirez les cartes du talon une par une : si une carte ne va pas sur une fondation, placez-la au sommet de l'une des 4 piles de défausse (seule la carte du sommet de chaque défausse reste jouable)."
+                ]
+            },
+            {
+                title: "Canasta",
+                aliases: "Canasta classique",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs (idéal à 4 en équipes)",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "2 jeux de 54 cartes (108 cartes)",
+                deckFilter: "2-decks",
+                duration: "45–60 min",
+                origin: "Uruguay / Amérique du Sud",
+                prep52: "Réunissez deux jeux complets de 54 cartes (104 cartes + 4 Jokers). Les quatre Jokers et les huit 2 servent tous de jokers (« Wild cards »).",
+                goal: "Être la première équipe à atteindre 5 000 points en assemblant des piles de 7 cartes de même rang (« Canastas »).",
+                setup: "Distribuez 11 cartes par joueur (13 à 2 joueurs). Les 3 Rouges (3♥, 3♦) sont posés immédiatement devant soi (+100 pts chacun) et remplacés par une carte de la pioche.",
+                rules: [
+                    "<strong>Combinaisons :</strong> Uniquement des groupes de même hauteur (jamais de suites), contenant au moins 2 cartes naturelles et au maximum 3 jokers (Jokers ou 2).",
+                    "<strong>Canastas :</strong> Atteindre 7 cartes dans une combinaison forme une Canasta : <strong>+500 pts</strong> si elle est pure (rouge, sans joker), <strong>+300 pts</strong> si elle est impure (noire, avec jokers).",
+                    "<strong>Prendre le talon :</strong> On peut ramasser toute la défausse si la carte supérieure se marie avec deux cartes naturelles de sa main (sauf si le talon est « gelé » par un joker ou un 3 Noir)."
+                ]
+            },
+            {
+                title: "Canfield",
+                aliases: "Demon, Fascination",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "États-Unis (Saratoga)",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Construire les 4 fondations par enseigne de la hauteur de base jusqu'à son prédécesseur (en bouclant après le Roi sur l'As).",
+                setup: "Formez une réserve de 13 cartes face cachée à gauche (retournez la carte supérieure). Retournez la 14e carte en haut à droite : sa hauteur détermine la base des 4 fondations ! Étalez 4 colonnes de 1 carte visible en tableau.",
+                rules: [
+                    "<strong>Tableau :</strong> Empilez en ordre décroissant en alternant rouge et noir (boucle As sur 2 autorisée).",
+                    "<strong>Réserve automatique :</strong> Dès qu'une des 4 colonnes est vidée, la carte du sommet de la réserve de 13 cartes la remplit automatiquement.",
+                    "<strong>Pioche :</strong> Retournez les cartes du talon par paquets de 3 (passages illimités)."
+                ]
+            },
+            {
+                title: "Cassino",
+                aliases: "Casino, Royal Cassino",
+                category: "Défausse & Combinaisons",
+                players: "2 à 4 joueurs",
+                playerTags: ["2", "3-4"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "Angleterre / Italie",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker). Valeurs numériques : As = 1, 2–10 = valeur faciale (les figures ne capturent que leurs paires).",
+                goal: "Atteindre 21 points en capturant des cartes au centre de la table par appariement, addition ou construction (« Build »).",
+                setup: "Distribuez 4 cartes à chaque joueur et étalez 4 cartes face visible au centre de la table (puis redistribuez 4 cartes chacun à chaque épuisement des mains).",
+                rules: [
+                    "<strong>Capturer :</strong> Jouez 1 carte de votre main : elle capture toutes les cartes centrales de même hauteur ET/OU tout groupe de cartes numériques dont la somme égale sa valeur (ex : un 9 capture un 9 ainsi que 5 + 4).",
+                    "<strong>Construire (Build) :</strong> Vous pouvez empiler une carte de votre main sur une carte centrale en annonçant leur somme (ex : poser un 3 sur un 4 et dire « 7 ») pour la capturer au tour suivant si vous détenez un 7.",
+                    "<strong>Décompte par donne (11 pts) :</strong> Majorité de cartes (+3 pts), majorité de Piques (+1 pt), le 10 de Carreau / Big Cassino (+2 pts), le 2 de Pique / Little Cassino (+1 pt), chaque As (+1 pt), chaque balayage de table / Sweep (+1 pt)."
+                ]
+            },
+            {
+                title: "Château assiégé",
+                aliases: "Beleaguered Castle",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "Europe",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Monter toutes les cartes sur les 4 As centraux de l'As au Roi par enseigne.",
+                setup: "Placez les 4 As en colonne centrale. Distribuez toutes les 48 cartes restantes face visible en 8 rangées horizontales de 6 cartes (4 rangées à gauche des As, 4 à droite).",
+                rules: [
+                    "<strong>Information ouverte :</strong> Aucune pioche : toutes les cartes sont visibles dès le départ.",
+                    "<strong>Déplacements :</strong> Seule la carte située à l'extrémité extérieure de chaque rangée est libre. Déplacez une carte libre sur l'extrémité d'une autre rangée en ordre décroissant (indépendamment de l'enseigne, ex : un 6 sur un 7).",
+                    "<strong>Espaces vides :</strong> N'importe quelle carte libre peut occuper une rangée devenue vide."
+                ]
+            },
+            {
+                title: "Coinche",
+                aliases: "Belote Coinchée, Contrée",
+                category: "Levées & Plis",
+                players: "4 joueurs (équipes de 2)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 32 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "France",
+                prep52: "Retirez les 2, 3, 4, 5 et 6 des quatre enseignes de votre jeu de 52 cartes (32 cartes du 7 à l'As).",
+                goal: "Réaliser le contrat chiffré annoncé aux enchères pour être la première équipe à atteindre 2 000 ou 3 000 points.",
+                setup: "Distribuez les 32 cartes en intégralité (8 par joueur). Aucune carte n'est retournée.",
+                rules: [
+                    "<strong>Enchères :</strong> Annoncez un contrat (80 à 160, Capot ou Générale) accompagné d'une couleur d'atout, de <em>Sans Atout</em> (As = 19 pts) ou de <em>Tout Atout</em> (Valet = 14 pts, 9 = 9 pts).",
+                    "<strong>Coinche & Surcoinche :</strong> La défense peut « Coincher » un contrat adverse pour en doubler les points ; l'attaque peut « Surcoincher » pour les quadrupler.",
+                    "<strong>Décompte :</strong> Contrat réussi = points faits + valeur du contrat. Contrat chuté = la défense inscrit 160 + valeur du contrat (×2 ou ×4 si coinché)."
+                ]
+            },
+            {
+                title: "Crapette",
+                aliases: "Russian Bank",
+                category: "Duel & Réflexes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "2 jeux de 52 cartes (104 cartes)",
+                deckFilter: "2-decks",
+                duration: "25–40 min",
+                origin: "France / Europe",
+                prep52: "Utilisez deux paquets complets de 52 cartes aux dos de préférence distincts (104 cartes).",
+                goal: "Être le premier joueur à vider sa pile de Crapette et son talon personnel.",
+                setup: "Chaque joueur place 13 cartes en pile de « Crapette » (carte supérieure visible), 4 cartes en colonne de tableau devant lui, et garde 35 cartes en talon. Les 8 fondations centrales se montent de l'As au Roi par enseigne.",
+                rules: [
+                    "<strong>Priorité aux fondations :</strong> Tout As libre et toute carte jouable sur les 8 fondations centrales doivent être montés en priorité ; en cas d'oubli, l'adversaire crie « Crapette ! » et interrompt immédiatement votre tour.",
+                    "<strong>Tableau & Attaques :</strong> Sur les colonnes, empilez en ordre décroissant en alternant rouge et noir. Vous pouvez aussi empiler des cartes de même enseigne (+1 ou -1 rang) sur la Crapette ou la défausse de votre adversaire pour le bloquer.",
+                    "<strong>Fin de tour :</strong> Quand vous ne pouvez plus jouer, posez la carte supérieure de votre talon sur votre défausse."
+                ]
+            },
+            {
+                title: "Cribbage",
+                aliases: "Crib",
+                category: "Casino & Bluff",
+                players: "2 à 4 joueurs",
+                playerTags: ["2", "3-4"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "25–35 min",
+                origin: "Angleterre / Monde Anglo-Saxon",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker) et une feuille pour noter les points jusqu'à 121.",
+                goal: "Être le premier joueur à franchir la barre des 121 points.",
+                setup: "À 2 joueurs, distribuez 6 cartes à chacun. Chacun écarte 2 cartes face cachée pour former le « Crib » (talon bonus appartenant au donneur). On retourne 1 carte commune (« Starter »).",
+                rules: [
+                    "<strong>Phase 1 (Le Jeu / Pegging) :</strong> À tour de rôle, posez 1 carte en cumulant les valeurs (Figures = 10, As = 1) sans dépasser 31. Atteindre pile <strong>15</strong> ou <strong>31</strong> vaut +2 pts ; poser une paire = +2 pts ; une suite = +1 pt par carte ; poser la dernière carte = +1 pt.",
+                    "<strong>Phase 2 (Le Décompte / Show) :</strong> Chacun compte les combinaisons formées par ses 4 cartes + le Starter : chaque somme égale à 15 (+2 pts), paires (+2 pts), suites (+1 pt/carte), couleur de 4 ou 5 cartes. Le donneur compte ensuite les points du Crib."
+                ]
+            },
+            {
+                title: "Dame de Pique",
+                aliases: "Hearts, Black Lady",
+                category: "Levées & Plis",
+                players: "3 à 6 joueurs (idéal à 4)",
+                playerTags: ["3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "25–40 min",
+                origin: "États-Unis / International",
+                prep52: "À 4 joueurs : 52 cartes complètes (13 chacun). À 3 joueurs : retirez le 2♦. À 5 joueurs : retirez le 2♦ et le 2♣.",
+                goal: "Terminer la partie avec le score le plus bas lorsqu'un joueur atteint 100 points.",
+                setup: "Avant chaque donne, passez secrètement 3 cartes à un voisin (gauche, droite, en face, puis aucun échange).",
+                rules: [
+                    "<strong>Entame & Fourniture :</strong> Le détenteur du 2 de Trèfle entame. Obligation de fournir l'enseigne demandée (pas d'atout). Interdit de jouer un Cœur ou la Dame de Pique au 1er pli, et interdit d'entamer à Cœur tant que les Cœurs n'ont pas été brisés.",
+                    "<strong>Points de pénalité :</strong> Chaque Cœur = <strong>+1 pt</strong> ; la Dame de Pique (♠D) = <strong>+13 pts</strong>.",
+                    "<strong>Grand Chelem (Déménager à la cloche de bois) :</strong> Capturer tous les Cœurs ET la Dame de Pique (26 pts) rapporte 0 pt au joueur et inflige +26 pts à chacun des adversaires."
+                ]
+            },
+            {
+                title: "Double solitaire",
+                aliases: "Spit Solitaire, Klondike en duel",
+                category: "Duel & Réflexes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "2 jeux de 52 cartes (104 cartes)",
+                deckFilter: "2-decks",
+                duration: "10–15 min",
+                origin: "International",
+                prep52: "Utilisez deux paquets complets de 52 cartes (1 paquet par joueur).",
+                goal: "Monter plus de cartes que son adversaire sur les 8 fondations centrales partagées, en temps réel.",
+                setup: "Chaque joueur prépare devant lui une mise en place de Klondike classique avec son paquet de 52 cartes (7 colonnes de 1 à 7 cartes + talon de 24 cartes). L'espace central accueille jusqu'à 8 fondations partagées (2 par enseigne, de l'As au Roi).",
+                rules: [
+                    "<strong>Jeu simultané :</strong> Au signal, les deux joueurs jouent en même temps sans attendre leur tour.",
+                    "<strong>Fondations communes :</strong> Dès qu'un joueur libère un As, il le place au centre : les deux joueurs peuvent empiler des cartes dans l'ordre croissant sur n'importe quelle fondation centrale.",
+                    "<strong>Décompte :</strong> Lorsque les deux joueurs sont bloqués, chacun compte ses cartes montées sur les fondations centrales (+1 pt/carte) moins les cartes restant dans ses colonnes (-1 pt/carte)."
+                ]
+            },
+            {
+                title: "Dourak",
+                aliases: "Durak, L'Idiot",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 36 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "Russie",
+                prep52: "Retirez les 2, 3, 4 et 5 des quatre enseignes de votre jeu de 52 cartes pour obtenir le paquet russe de 36 cartes (du 6 à l'As).",
+                goal: "Vider sa main avant les autres afin de ne pas être le dernier joueur avec des cartes (le « Dourak »).",
+                setup: "Distribuez 6 cartes à chaque joueur. Retournez la carte suivante sous la pioche pour désigner l'Atout.",
+                rules: [
+                    "<strong>Attaque & Défense :</strong> L'attaquant pose une carte face à son voisin de gauche (défenseur), qui doit la couvrir par une carte supérieure de même enseigne ou par un Atout.",
+                    "<strong>Relances :</strong> Les autres joueurs peuvent ajouter des cartes d'attaque à condition que leur hauteur soit déjà présente sur la table (max 6 cartes d'attaque).",
+                    "<strong>Issue de l'assaut :</strong> Si le défenseur couvre toutes les cartes, elles sont défaussées et il devient attaquant. Sinon, il ramasse toutes les cartes en main ! Chacun repioche ensuite jusqu'à 6 cartes."
+                ]
+            },
+            {
+                title: "Écarté",
+                aliases: "Écarté français",
+                category: "Levées & Plis",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 32 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "France (XIXe siècle)",
+                prep52: "Retirez les 2, 3, 4, 5 et 6 de votre jeu de 52 cartes (32 cartes du 7 à l'As).",
+                goal: "Être le premier joueur à atteindre 5 points en remportant au moins 3 des 5 plis de chaque donne.",
+                setup: "Distribuez 5 cartes à chacun (3 + 2) et retournez la 11e carte pour fixer l'atout (si c'est un Roi, le donneur marque immédiatement +1 pt).",
+                rules: [
+                    "<strong>Hiérarchie spéciale :</strong> Roi (plus fort) > Dame > Valet > As > 10 > 9 > 8 > 7.",
+                    "<strong>Demander à écarter :</strong> Avant de jouer, le non-donneur peut dire « Je propose » pour échanger des cartes au talon. Si le donneur accepte, chacun écarte autant de cartes qu'il le souhaite et repioche. Si le donneur refuse, le non-donneur joue sans écarter mais marque double s'il gagne !",
+                    "<strong>Jeu de la carte :</strong> Obligation stricte de fournir la couleur, de monter si possible, et de couper à l'atout. 3 ou 4 plis = 1 pt ; 5 plis (« vole ») = 2 pts."
+                ]
+            },
+            {
+                title: "Euchre",
+                aliases: "Euchre anglo-saxon",
+                category: "Levées & Plis",
+                players: "4 joueurs (équipes de 2)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 24 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "États-Unis / Royaume-Uni",
+                prep52: "Conservez uniquement les 9, 10, Valet, Dame, Roi et As des quatre enseignes (24 cartes).",
+                goal: "Être la première équipe à atteindre 10 points en remportant au moins 3 des 5 plis par donne.",
+                setup: "Distribuez 5 cartes à chacun (3 + 2) et retournez la 21e carte au centre pour proposer l'atout.",
+                rules: [
+                    "<strong>Hiérarchie à l'Atout :</strong> Valet d'atout (Right Bower) > Valet de la même couleur visuelle (Left Bower) > As > Roi > Dame > 10 > 9.",
+                    "<strong>Choix de l'atout :</strong> Au 1er tour, un joueur peut ordonner au donneur de prendre la carte retournée comme atout (le donneur écarte 1 carte). Si tous passent, un 2e tour permet de nommer une autre couleur. Possibilité de jouer « seul » (sans partenaire) pour doubler les points.",
+                    "<strong>Décompte :</strong> 3 ou 4 plis = 1 pt ; 5 plis (March) = 2 pts (4 pts si joué seul). Si l'équipe preneuse fait moins de 3 plis, elle est « Euchred » et la défense marque 2 pts."
+                ]
+            },
+            {
+                title: "Fox in the Forest (adaptation 52 cartes)",
+                aliases: "Le Renard dans la Forêt 52",
+                category: "Adaptations 52 cartes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 33 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "Adaptation moderne (Projet 52 Cartes)",
+                prep52: "Prenez les cartes de l'<strong>As (1) au Valet (11)</strong> dans 3 enseignes au choix (ex : ♥, ♠, ♦) = 33 cartes.",
+                goal: "Atteindre 21 points en gérant finement son nombre de plis (trop ou trop peu de plis pénalise !).",
+                setup: "Distribuez 13 cartes à chaque joueur et retournez la 27e carte pour fixer l'atout (6 cartes restent écartées).",
+                rules: [
+                    "<strong>Pouvoirs des rangs impairs :</strong> <strong>As (1)</strong> : si vous perdez le pli, vous gagnez l'entame suivante ; <strong>3</strong> : échangez 1 carte de votre main avec la carte d'atout visible ; <strong>5</strong> : piochez 1 carte puis défaussez 1 carte ; <strong>7</strong> : +1 point immédiat au vainqueur du pli ; <strong>9</strong> : compte comme un atout s'il est seul de son rang dans le pli ; <strong>Valet (11)</strong> : oblige l'adversaire à jouer sa plus forte carte ou son As dans la couleur demandée.",
+                    "<strong>Barème de fin de manche (sur 13 plis) :</strong> 0 à 3 plis = <strong>6 pts</strong> (Humble) ; 4 plis = 1 pt ; 5 plis = 2 pts ; 6 plis = 3 pts ; 7 à 9 plis = <strong>6 pts</strong> (Victorieux) ; 10 à 13 plis = <strong>0 pt</strong> (Gourmand !)."
+                ]
+            },
+            {
+                title: "FreeCell",
+                aliases: "FreeCell Solitaire",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "États-Unis",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Ranger les 52 cartes sur les 4 fondations par enseigne de l'As au Roi.",
+                setup: "Distribuez toutes les 52 cartes face visible en 8 colonnes (4 colonnes de 7 cartes et 4 de 6 cartes). Réservez 4 Cellules Libres en haut à gauche et 4 Fondations à droite.",
+                rules: [
+                    "<strong>Déplacements :</strong> Empilez sur le tableau en ordre décroissant en alternant rouge et noir. Chaque Cellule Libre peut accueillir 1 carte temporaire.",
+                    "<strong>Super-déplacement :</strong> Vous pouvez déplacer d'un bloc une suite ordonnée de N cartes s'il existe assez de cellules libres et de colonnes vides pour réaliser le transfert carte par carte.",
+                    "<strong>Colonnes vides :</strong> N'importe quelle carte peut occuper une colonne vide."
+                ]
+            },
+            {
+                title: "Fugitive (adaptation 52 cartes)",
+                aliases: "Le Fugitif 52",
+                category: "Adaptations 52 cartes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 43 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "Adaptation moderne (Projet 52 Cartes)",
+                prep52: "Numérotez 43 cartes de 0 à 42 à partir d'un jeu de 52 : Joker = <strong>0</strong> ; Cœur (As à Roi) = <strong>1 à 13</strong> ; Carreau (As à Roi) = <strong>14 à 26</strong> ; Pique (As à Roi) = <strong>27 à 39</strong> ; Trèfle (As, 2, 3) = <strong>40, 41, 42</strong>.",
+                goal: "Asymétrique : le Fugitif doit atteindre et révéler la carte 42 ; le Marshal doit démasquer toutes les planques du Fugitif avant sa fuite.",
+                setup: "Le Fugitif prend les cartes 0, 1, 2, 3 et 42 + pioche 2 cartes dans les paquets bas (4–14) et moyen (15–28). Le Marshal commence sans carte et pioche à chaque tour.",
+                rules: [
+                    "<strong>Tour du Fugitif :</strong> Pioche 1 carte dans l'un des trois paquets (Bas 4–14, Moyen 15–28, Haut 29–41) et pose une nouvelle planque face cachée à droite de sa piste, dont la valeur doit être supérieure de +1 à +3 par rapport à la planque précédente (ou davantage en défaussant des cartes pour « sprinter »).",
+                    "<strong>Tour du Marshal :</strong> Pioche 1 carte et tente de deviner la valeur exacte d'une ou plusieurs planques cachées du Fugitif. Si le Marshal devine juste, la planque est révélée !",
+                    "<strong>Fin de partie :</strong> Dès que le Fugitif pose la carte 42, il gagne (sauf si le Marshal devine toutes les planques lors d'une ultime chasse à l'homme)."
+                ]
+            },
+            {
+                title: "Gin Rami",
+                aliases: "Gin Rummy",
+                category: "Défausse & Combinaisons",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "États-Unis",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Être le premier joueur à atteindre 100 points en formant des combinaisons en main sans les étaler avant la fin de la manche.",
+                setup: "Distribuez 10 cartes à chaque joueur, posez le talon au centre et retournez 1 carte pour la défausse.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> Piochez 1 carte (talon ou défausse) et défaussez 1 carte. Les combinaisons (brelans/carrés ou suites de 3+ cartes de même enseigne) restent cachées en main.",
+                    "<strong>Frapper (Knock) & Gin :</strong> Dès que le total de vos cartes non combinées (« bois mort ») est ≤ 10 points, vous pouvez « frapper » pour clore la manche. Si vous n'avez 0 point de bois mort, vous annoncez <strong>« Gin ! »</strong> (+25 pts de bonus).",
+                    "<strong>Décompte :</strong> Le gagnant marque la différence entre le bois mort de l'adversaire et le sien (si le défenseur a un bois mort inférieur ou égal au frappeur, il réussit un « Undercut » et marque +25 pts)."
+                ]
+            },
+            {
+                title: "Gobblet (adaptation 52 cartes)",
+                aliases: "Gobblet Gobblers 52, Morpion tactique",
+                category: "Adaptations 52 cartes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 24 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "Adaptation moderne (Projet 52 Cartes)",
+                prep52: "Joueur 1 (Rouge) prend trois séries de 4 tailles en ♥/♦ (ex : trois 2, trois 5, trois 8, trois Rois = 12 cartes). Joueur 2 (Noir) prend la même distribution en ♠/♣ (12 cartes).",
+                goal: "Aligner 4 cartes de sa couleur (Rouge ou Noir) horizontalement, verticalement ou en diagonale sur une grille imaginaire de 4×4.",
+                setup: "Chaque joueur classe ses 12 cartes en 3 piles décroissantes (Roi au sommet, puis 8, 5, 2).",
+                rules: [
+                    "<strong>Tour de jeu :</strong> À votre tour, vous pouvez soit <em>poser</em> la carte supérieure de l'une de vos 3 piles sur une case vide de la grille 4×4, soit <em>déplacer</em> l'une de vos cartes déjà visibles sur la grille.",
+                    "<strong>Gober (Recouvrir) :</strong> Une carte de rang supérieur (ex : Roi > 8 > 5 > 2) peut être posée par-dessus n'importe quelle carte plus petite (adverse ou alliée) pour la recouvrir !",
+                    "<strong>Attention au dévoilement :</strong> Si vous soulevez une carte pour la déplacer et que cela révèle un alignement de 4 cartes adverses en dessous, vous perdez immédiatement."
+                ]
+            },
+            {
+                title: "Golf",
+                aliases: "Golf Solitaire",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5–10 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Éliminer toutes les cartes des 7 colonnes sur la défausse avant l'épuisement du talon.",
+                setup: "Distribuez 35 cartes face visible en 7 colonnes de 5 cartes qui se chevauchent. Posez 1 carte face visible en base de défausse et gardez les 16 cartes restantes en pioche.",
+                rules: [
+                    "<strong>Enchaînement (+1 / -1) :</strong> Déplacez n'importe quelle carte libre au bas d'une colonne sur la défausse si sa valeur est immédiatement supérieure ou inférieure de 1 rang (indépendamment de l'enseigne, ex : un 7 sur un 6 ou un 8).",
+                    "<strong>Rois bloquants :</strong> Rien ne peut être posé sur un Roi (les Rois arrêtent la série), tandis qu'un As accepte un 2.",
+                    "<strong>Pioche :</strong> Quand aucun coup n'est possible, retournez la carte suivante de la pioche sur la défausse (1 seul passage)."
+                ]
+            },
+            {
+                title: "Hanamikoji (adaptation 52 cartes)",
+                aliases: "Geishas 52, Duel d'influence",
+                category: "Adaptations 52 cartes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 28 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "Adaptation moderne (Projet 52 Cartes)",
+                prep52: "Alignez les <strong>7 Rois/Dames</strong> comme 7 Geishas de valeurs 2, 2, 2, 3, 3, 4, 5 (ex : 2♥, 2♦, 2♠, 3♥, 3♦, 4♥, 5♥ = 7 cartes centrales). Utilisez les 21 cartes correspondantes restantes en ♥, ♦, ♠ (deux 2, deux 2, deux 2, trois 3, trois 3, quatre 4, cinq 5) comme paquet de cadeaux.",
+                goal: "Gagner la majorité d'influence auprès d'au moins 4 des 7 cartes centrales (ou totaliser au moins 11 points d'influence).",
+                setup: "Alignez les 7 cartes objectifs au centre. Mélangez les 21 cartes cadeaux, écartez-en 1 face cachée, et distribuez 6 cartes à chaque joueur.",
+                rules: [
+                    "<strong>Les 4 Actions obligatoires (1 par tour) :</strong><br>1) <em>Secret :</em> Placez 1 carte face cachée sous votre côté.<br>2) <em>Défausse :</em> Écartez 2 cartes face cachée hors du jeu.<br>3) <em>Cadeau :</em> Présentez 3 cartes face visible : l'adversaire en choisit 1 pour lui, vous gardez les 2 autres.<br>4) <em>Concurrence :</em> Présentez 2 paires de cartes face visible : l'adversaire choisit 1 paire, vous prenez l'autre.",
+                    "<strong>Résolution :</strong> Chaque carte conservée est placée devant l'objectif de même valeur. Celui qui a le plus de cartes devant un objectif remporte ses points."
+                ]
+            },
+            {
+                title: "Horloge",
+                aliases: "Clock Solitaire, L'Horloge",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Retourner toutes les cartes des 12 heures du cadran avant que le 4e Roi ne soit révélé au centre.",
+                setup: "Distribuez les 52 cartes face cachée en 13 paquets de 4 cartes : 12 paquets disposés en cercle comme les heures d'une horloge (1h = As à 12h = Dame) et 1 paquet au centre (13e tas = Rois).",
+                rules: [
+                    "<strong>Déroulement :</strong> Retournez la carte supérieure du paquet central.",
+                    "<strong>Placement horaire :</strong> Glissez cette carte face visible sous le paquet correspondant à sa valeur (As à 1h, 2 à 2h... Valet à 11h, Dame à 12h, Roi au centre), puis retournez la carte supérieure de ce nouveau paquet.",
+                    "<strong>Issue :</strong> Si les 4 Rois sont révélés au centre avant que toutes les autres cartes ne soient retournées, la partie est perdue (1 chance sur 13 de gagner)."
+                ]
+            },
+            {
+                title: "Jass",
+                aliases: "Chibre, Jass suisse",
+                category: "Levées & Plis",
+                players: "4 joueurs (équipes de 2)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 36 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "Suisse",
+                prep52: "Retirez les 2, 3, 4 et 5 des quatre enseignes de votre jeu de 52 cartes pour obtenir les 36 cartes suisses (du 6 à l'As).",
+                goal: "Atteindre 1 000 ou 2 500 points en équipe en cumulant les points de plis et les annonces.",
+                setup: "Distribuez 9 cartes par joueur (3 par 3). Le joueur à droite du donneur choisit l'atout ou passe le choix à son partenaire (« chibrer »).",
+                rules: [
+                    "<strong>Valeurs à l'Atout :</strong> Valet / Bour (20 pts), 9 / Nell (14), As (11), 10 (10), Roi (4), Dame (3), 8, 7, 6 (0). Dernier pli = +5 pts (Total = 157 pts).",
+                    "<strong>Annonces avant le 1er pli :</strong> Suites de couleur (3 cartes = 20 pts, 4 = 50, 5 = 100) et carrés (4 Valets = 200 pts, 4 Neuf = 150 pts, autres carrés = 100 pts).",
+                    "<strong>Privilège du Bour :</strong> On n'est jamais obligé de fournir le Valet d'atout lorsque l'atout est demandé."
+                ]
+            },
+            {
+                title: "Kem's",
+                aliases: "Kems, Kent",
+                category: "Duel & Réflexes",
+                players: "4 à 8 joueurs (en binômes)",
+                playerTags: ["3-4", "5+"],
+                deck: "1 jeu de 32 ou 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "France / International",
+                prep52: "À 4 joueurs : utilisez 32 cartes extraites (du 7 à l'As). À 6 ou 8 joueurs : utilisez les 52 cartes complètes.",
+                goal: "Réunir un carré (4 cartes de même rang) et transmettre un signe secret à son coéquipier pour qu'il crie « Kem's ! ».",
+                setup: "Les partenaires s'assoient face à face et conviennent d'un signal discret. Distribuez 4 cartes par joueur et étalez 4 cartes face visible au centre.",
+                rules: [
+                    "<strong>Échanges simultanés :</strong> Au top départ, tous les joueurs échangent simultanément des cartes de leur main avec les 4 cartes du centre (poser 1 carte avant d'en prendre 1).",
+                    "<strong>Renouvellement :</strong> Si personne ne souhaite les cartes centrales, on les écarte et on en retourne 4 nouvelles.",
+                    "<strong>Kem's & Contre-Kem's :</strong> Dès qu'un joueur a un carré, son partenaire ayant vu le signe crie « Kem's ! » (+1 pt). Si un adversaire devine le signal avant, il crie « Contre-Kem's ! » et remporte le point."
+                ]
+            },
+            {
+                title: "Klondike",
+                aliases: "Solitaire classique, Patience",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "Canada / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Classer les 52 cartes sur les 4 fondations par enseigne de l'As au Roi.",
+                setup: "Formez 7 colonnes de gauche à droite contenant de 1 à 7 cartes (seule la carte supérieure de chaque colonne est visible). Les 24 cartes restantes constituent la pioche.",
+                rules: [
+                    "<strong>Sur le tableau :</strong> Empilez les cartes visibles en ordre décroissant en alternant rouge et noir (ex : 7 Rouge sur 8 Noir).",
+                    "<strong>Colonnes vides :</strong> Seul un Roi (ou une suite commençant par un Roi) peut occuper une colonne vide.",
+                    "<strong>Pioche :</strong> Retournez les cartes du talon 1 par 1 (mode facile) ou 3 par 3 (mode classique)."
+                ]
+            },
+            {
+                title: "La Belle Lucie",
+                aliases: "Les Trois Éventails, Three Shuffles and a Draw",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "France / Angleterre",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Monter toutes les cartes sur les 4 fondations par enseigne de l'As au Roi.",
+                setup: "Distribuez toutes les 52 cartes face visible en 17 éventails de 3 cartes et 1 éventail final de 1 carte.",
+                rules: [
+                    "<strong>Déplacements :</strong> Seule la carte supérieure (la plus à droite) de chaque éventail est jouable. Empilez sur un autre éventail en ordre décroissant dans la <strong>même enseigne</strong> (ex : 5♠ sur 6♠). Les éventails vidés ne sont jamais remplis.",
+                    "<strong>2 Rebattages :</strong> Lorsque vous êtes bloqué, vous avez le droit de ramasser toutes les cartes restantes des éventails, de les mélanger et de les redistribuer en éventails de 3 (jusqu'à 2 fois par partie).",
+                    "<strong>Le Merci (Draw) :</strong> Après le 2e rebattage, vous pouvez extraire une seule carte bloquée sous un éventail pour la jouer."
+                ]
+            },
+            {
+                title: "Lucky Numbers (adaptation 52 cartes)",
+                aliases: "Grille croissante 1–20",
+                category: "Adaptations 52 cartes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 40 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "Adaptation moderne",
+                prep52: "Retirez toutes les Figures (Valet, Dame, Roi) et les Jokers de votre jeu de 52 cartes (40 cartes restantes : As à 10). Les cartes Rouges (♥♦) valent de <strong>1 à 10</strong> ; les cartes Noires (♠♣) valent +10, soit de <strong>11 à 20</strong> (ex : As♠ = 11, 10♣ = 20).",
+                goal: "Être le premier joueur à remplir intégralement sa grille de 4×4 en respectant l'ordre strictement croissant sur chaque ligne et chaque colonne.",
+                setup: "Chaque joueur tire 4 cartes au hasard et les place en ordre croissant sur la diagonale principale (haut-gauche vers bas-droite) de sa grille de 4×4.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> Piochez 1 carte face cachée dans le paquet (ou prenez une carte défaussée face visible au centre).",
+                    "<strong>Placement :</strong> Placez cette carte sur une case vide de votre grille 4×4 OU remplacez une carte déjà posée (en la défaussant face visible au centre), à condition que toutes les lignes et colonnes restent strictement croissantes de gauche à droite et de haut en bas.",
+                    "<strong>Victoire :</strong> Le premier joueur qui complète ses 16 cases gagne immédiatement."
+                ]
+            },
+            {
+                title: "Manille",
+                aliases: "Manille parlée, Manille muette",
+                category: "Levées & Plis",
+                players: "4 joueurs (équipes de 2)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 32 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "France / Belgique / Catalogne",
+                prep52: "Retirez les 2, 3, 4, 5 et 6 de votre jeu de 52 cartes (32 cartes du 7 à l'As).",
+                goal: "Marquer plus de 30 points sur les 60 points disponibles à chaque donne.",
+                setup: "Distribuez les 32 cartes (8 par joueur). Le donneur regarde son jeu et choisit librement l'Atout, ou annonce « Sans Atout » (points doublés). La défense peut « Contrer ».",
+                rules: [
+                    "<strong>Hiérarchie et Valeurs :</strong> 10 / Manille (5 pts) > As / Manillon (4) > Roi (3) > Dame (2) > Valet (1) > 9, 8, 7 (0 pt). Chaque pli gagné rapporte en plus +1 pt (52 + 8 = 60 pts).",
+                    "<strong>Obligations :</strong> Fournir la couleur demandée ; à défaut, obligation de couper et de monter uniquement si l'adversaire est maître du pli."
+                ]
+            },
+            {
+                title: "Mao",
+                aliases: "Le Jeu du Silence, Mao secret",
+                category: "Défausse & Combinaisons",
+                players: "3 à 8 joueurs",
+                playerTags: ["3-4", "5+"],
+                deck: "1 ou 2 jeux de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "Europe / International",
+                prep52: "Utilisez 1 paquet complet de 52 cartes (2 paquets au-delà de 6 joueurs).",
+                goal: "Se débarrasser de toutes ses cartes en découvrant par déduction les règles secrètes imposées par le Maître du Jeu (« Mao »).",
+                setup: "Distribuez 5 à 7 cartes par joueur. Retournez 1 carte au centre. La seule règle officielle communiquée est : « Il est interdit de parler ou d'expliquer les règles ».",
+                rules: [
+                    "<strong>Base :</strong> Posez une carte de même enseigne ou de même hauteur que la carte centrale.",
+                    "<strong>Règles secrètes classiques :</strong> Dire « Passe » sur un Valet, dire « Merci » lorsqu'on reçoit une pénalité, annoncer le nom complet de chaque Pique posé (ex : « Roi de Pique »), dire « Bonne journée » sur un 7, etc.",
+                    "<strong>Pénalités & Nouvelle règle :</strong> À chaque infraction (parole, retard, oubli d'annonce), le Maître donne 1 carte de pénalité en énonçant le motif sans l'expliquer. Le vainqueur de la manche invente secrètement une nouvelle règle pour la suivante !"
+                ]
+            },
+            {
+                title: "Menteur",
+                aliases: "Bullshit, Bluff, I Doubt It",
+                category: "Casino & Bluff",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Vider sa main le premier grâce au bluff ou en démasquant les mensonges adverses.",
+                setup: "Distribuez toutes les 52 cartes équitablement aux joueurs.",
+                rules: [
+                    "<strong>Annonce :</strong> Le 1er joueur pose 1 à 4 cartes face cachée au centre en déclarant leur hauteur (ex : « Deux Rois »).",
+                    "<strong>Suite :</strong> Le joueur suivant pose 1 à 4 cartes face cachée en annonçant la même hauteur (ou la hauteur suivante), en disant vrai ou en mentant.",
+                    "<strong>Accusation :</strong> N'importe quel joueur peut crier « Menteur ! ». On retourne les dernières cartes posées : si l'annonce était fausse, le menteur ramasse tout le tas central ; si elle était vraie, l'accusateur ramasse tout le tas."
+                ]
+            },
+            {
+                title: "Monte-Carlo",
+                aliases: "Weddings, Double et Quitte",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5–10 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Éliminer toutes les 52 cartes par paires adjacentes de même hauteur.",
+                setup: "Étalez 25 cartes face visible en une grille carrée de 5×5. Conservez les 27 cartes restantes en pioche.",
+                rules: [
+                    "<strong>Retrait des paires :</strong> Retirez de la grille toute paire de cartes de <strong>même hauteur</strong> (ex : deux 8) qui se touchent horizontalement, verticalement ou en diagonale.",
+                    "<strong>Consolidation :</strong> Lorsque plus aucune paire adjacente n'est disponible, resserrez toutes les cartes restantes vers la gauche et vers le haut pour combler les vides, puis complétez la grille de 5×5 avec la pioche."
+                ]
+            },
+            {
+                title: "Nerts",
+                aliases: "Pounce, Racing Demon, Crapette rapide",
+                category: "Duel & Réflexes",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "2 jeux de 52 cartes (1 paquet de 52 par joueur)",
+                deckFilter: "2-decks",
+                duration: "15–20 min",
+                origin: "États-Unis / Royaume-Uni",
+                prep52: "Chaque joueur utilise son propre paquet complet de 52 cartes (sans Joker) aux dos identifiables.",
+                goal: "Vider sa pile de « Nerts » de 13 cartes en premier tout en marquant un maximum de points sur les fondations centrales partagées.",
+                setup: "Chacun prépare devant soi une pile de 13 cartes (« Nerts », carte supérieure visible), 4 colonnes de tableau de 1 carte visible, et garde 35 cartes en main.",
+                rules: [
+                    "<strong>Frénésie simultanée :</strong> Tous les joueurs jouent en même temps sans tour de jeu !",
+                    "<strong>Fondations centrales :</strong> Tous les As sortis sont placés au centre de la table ; chacun peut y empiler des cartes de même enseigne de l'As au Roi.",
+                    "<strong>Tableau & Pioche :</strong> Sur ses 4 colonnes personnelles, on empile en ordre décroissant en alternant rouge et noir. On retourne sa pioche personnelle 3 cartes par 3. Le premier qui vide sa pile Nerts crie « Nerts ! » et arrête la manche (+2 pts par carte au centre, -2 pts par carte restant dans son Nerts)."
+                ]
+            },
+            {
+                title: "Pige dans le lac",
+                aliases: "Pioche dans le lac, Go Fish",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "Amériques / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Constituer le plus grand nombre de carrés (4 cartes de même hauteur).",
+                setup: "Distribuez 5 cartes à chacun (7 à 2 joueurs). Étalez le reste des cartes face cachée en vrac au centre : c'est le « lac ».",
+                rules: [
+                    "<strong>Interroger :</strong> Demandez à un joueur précis s'il détient une hauteur donnée (ex : « As-tu des 9 ? »), à condition d'avoir déjà au moins un 9 en main.",
+                    "<strong>Don ou Pige :</strong> S'il en possède, il vous remet tous ses 9 et vous rejouez. Sinon, il dit « Pige dans le lac ! » et vous piochez 1 carte au centre.",
+                    "<strong>Carrés :</strong> Dès que vous avez 4 cartes de même hauteur, posez le carré devant vous."
+                ]
+            },
+            {
+                title: "Piquet",
+                aliases: "Piquet français, Piquet à deux",
+                category: "Levées & Plis",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 32 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "France (XVIe siècle)",
+                prep52: "Retirez les 2, 3, 4, 5 et 6 de votre jeu de 52 cartes (32 cartes du 7 à l'As).",
+                goal: "Marquer plus de points que son adversaire sur une partie en 6 donnes (ou atteindre 100 points) via les déclarations et les levées.",
+                setup: "Distribuez 12 cartes à chaque joueur (2 par 2) et posez les 8 cartes restantes en talon au centre (le non-donneur peut écarter jusqu'à 5 cartes, le donneur jusqu'à 3 cartes).",
+                rules: [
+                    "<strong>1. Déclarations (avant de jouer) :</strong><br>• <em>Le Point :</em> couleur la plus longue (1 pt par carte).<br>• <em>La Séquence :</em> plus longue suite consécutive dans une enseigne (Tierce = 3 pts, Quarte = 4 pts, Quinte = 15 pts...).<br>• <em>Le Quatorze / Trio :</em> 4 ou 3 cartes identiques (10 et plus) : Quatorze = 14 pts, Trio = 3 pts.",
+                    "<strong>2. Jeu de la carte (sans atout) :</strong> Obligation de fournir la couleur demandée (As > Roi > Dame > Valet > 10 > 9 > 8 > 7). Chaque entame et chaque prise de pli rapportent +1 pt (+10 pts de bonus pour la majorité des plis, +40 pts pour la Capote)."
+                ]
+            },
+            {
+                title: "Poker",
+                aliases: "Texas Hold'em, Poker fermé",
+                category: "Casino & Bluff",
+                players: "2 à 10 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "30–120 min",
+                origin: "États-Unis / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker) avec des jetons ou allumettes pour les mises.",
+                goal: "Remporter le pot en formant la meilleure main de 5 cartes à l'abattage ou en poussant les autres joueurs à se coucher.",
+                setup: "En Texas Hold'em : chaque joueur reçoit 2 cartes privées face cachée, puis 5 cartes communes sont dévoilées au centre en trois temps (Flop : 3, Turn : 1, River : 1).",
+                rules: [
+                    "<strong>Classement des mains (de la plus faible à la plus forte) :</strong> Carte haute < Paire < Double Paire < Brelan < Quinte (Suite) < Couleur (Flush) < Full < Carré < Quinte Flush < Quinte Flush Royale.",
+                    "<strong>Tours d'enchères :</strong> À chaque tour, chacun peut <em>Paroler (Check)</em>, <em>Miser (Bet)</em>, <em>Suivre (Call)</em>, <em>Relancer (Raise)</em> ou <em>Se coucher (Fold)</em>."
+                ]
+            },
+            {
+                title: "Poker carré",
+                aliases: "Poker Squares, Poker Patience",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5–10 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Construire une grille de 5×5 cartes afin d'obtenir le plus haut score cumulé sur les 10 mains de poker formées (5 lignes horizontales + 5 colonnes verticales).",
+                setup: "Mélangez le paquet et tirez les cartes une par une pour les placer dans une grille de 5×5.",
+                rules: [
+                    "<strong>Placement définitif :</strong> Chaque carte tirée doit être placée immédiatement dans une case libre de la grille de 5×5 et ne peut plus être déplacée une fois posée (25 cartes posées au total).",
+                    "<strong>Barème américain :</strong> Quinte Flush Royale (100 pts), Quinte Flush (75), Carré (50), Full (25), Couleur (20), Quinte (15), Brelan (10), Double Paire (5), Paire (2). Viser 200 points !"
+                ]
+            },
+            {
+                title: "Pouilleux",
+                aliases: "Mistigri, Le Vieux Garçon, Old Maid",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 51 cartes (52 sans Valet♣)",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "Europe / International",
+                prep52: "Retirez uniquement le Valet de Trèfle de votre paquet de 52 cartes (les 51 cartes restantes laissent le Valet de Pique sans paire).",
+                goal: "Défausser toutes ses paires afin de ne pas rester seul à la fin avec le Valet de Pique (le Pouilleux).",
+                setup: "Distribuez toutes les 51 cartes aux joueurs.",
+                rules: [
+                    "<strong>Défausse initiale :</strong> Chacun pose devant soi ses paires de même hauteur et de même couleur visuelle (deux cartes Rouges ou deux cartes Noires).",
+                    "<strong>Pioche à l'aveugle :</strong> À tour de rôle, piochez 1 carte au hasard dans la main de votre voisin de gauche, défaussez une éventuelle paire formée, et passez la main."
+                ]
+            },
+            {
+                title: "Président",
+                aliases: "Trou du Cul, Daifugō",
+                category: "Défausse & Combinaisons",
+                players: "4 à 8 joueurs",
+                playerTags: ["3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–30 min",
+                origin: "Japon / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Vider sa main le premier pour obtenir le titre de Président et imposer un échange de cartes à la manche suivante.",
+                setup: "Distribuez toutes les 52 cartes équitablement. Ordre croissant : 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < Valet < Dame < Roi < As < 2.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> Le 1er joueur pose 1 carte, une paire, un brelan ou un carré. Les suivants doivent poser la même quantité de cartes de rang supérieur ou égal, ou passer.",
+                    "<strong>Clore le pli :</strong> Poser un 2 (ou un carré) clôt immédiatement le pli et permet de relancer.",
+                    "<strong>Échange entre manches :</strong> Le dernier (Trou du Cul) donne ses 2 meilleures cartes au Président, qui lui rend ses 2 plus faibles."
+                ]
+            },
+            {
+                title: "Pyramide",
+                aliases: "Pyramid Solitaire, Solitaire des 13",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5–10 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Démonter intégralement la pyramide de 28 cartes en associant des paires libres dont la somme vaut 13.",
+                setup: "Disposez 28 cartes face visible en pyramide sur 7 rangées qui se chevauchent (1 carte au sommet jusqu'à 7 à la base). Les 24 cartes restantes forment la pioche.",
+                rules: [
+                    "<strong>Valeurs :</strong> As = 1, 2–10 = valeur faciale, Valet = 11, Dame = 12, Roi = 13.",
+                    "<strong>Élimination par paires de 13 :</strong> Toute carte libre (non recouverte) se retire avec une autre carte libre si leur total vaut 13 (Dame+As, Valet+2, 10+3, 9+4, 8+5, 7+6). Les <strong>Rois (13)</strong> s'éliminent seuls.",
+                    "<strong>Pioche :</strong> Tirez les cartes une à une pour les associer avec une carte libre de la pyramide ou la carte du dessus de la défausse."
+                ]
+            },
+            {
+                title: "Quarante voleurs",
+                aliases: "Forty Thieves, Napoléon à Sainte-Hélène",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "2 jeux de 52 cartes (104 cartes)",
+                deckFilter: "2-decks",
+                duration: "20–30 min",
+                origin: "France / International",
+                prep52: "Réunissez deux paquets complets de 52 cartes (104 cartes sans Joker).",
+                goal: "Construire les 8 fondations par enseigne de l'As au Roi.",
+                setup: "Distribuez 40 cartes face visible en 10 colonnes de 4 cartes chacune (les « 40 voleurs »). Réservez 8 fondations en haut et gardez les 64 cartes restantes en pioche.",
+                rules: [
+                    "<strong>Règle stricte du tableau :</strong> On ne déplace qu'<strong>une seule carte à la fois</strong>, et on empile sur les colonnes en ordre décroissant dans la <strong>même enseigne</strong> (ex : 8♥ sur 9♥).",
+                    "<strong>Colonnes vides & Pioche :</strong> N'importe quelle carte peut remplir une colonne vide. On retourne les cartes de la pioche une par une sur la défausse (1 seul passage)."
+                ]
+            },
+            {
+                title: "Rami",
+                aliases: "Rummy, Rami classique",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 ou 2 jeux de 54 cartes",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "International",
+                prep52: "À 2–4 joueurs : 1 jeu de 54 cartes (52 + 2 Jokers). À 5–6 joueurs : 2 jeux de 54 cartes (108 cartes).",
+                goal: "Être le premier joueur à étaler toutes les cartes de sa main.",
+                setup: "Distribuez 10 cartes par joueur (7 à 2 joueurs, 13 avec deux paquets). Placez le talon au centre et retournez 1 carte pour ouvrir la défausse.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> 1) Piocher (au talon ou sur la défausse), 2) Poser des combinaisons (brelan/carré de même hauteur ou suite de 3+ cartes de même enseigne) ou compléter les jeux déjà sur table, 3) Défausser 1 carte.",
+                    "<strong>Ouverture à 51 points :</strong> La première pose d'un joueur doit totaliser au moins 51 points (Figures = 10, As = 11 ou 1, chiffres = valeur faciale).",
+                    "<strong>Décompte :</strong> Le gagnant marque 0 pt ; les autres additionnent les points des cartes restant en main (Joker = 20 pts, Figures = 10, As = 11)."
+                ]
+            },
+            {
+                title: "Rami-500",
+                aliases: "500 Rum, Pinochle Rummy",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes (2 jeux à 5+)",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "États-Unis",
+                prep52: "Utilisez 1 paquet complet de 52 cartes jusqu'à 4 joueurs (2 paquets à partir de 5 joueurs).",
+                goal: "Être le premier joueur à atteindre 500 points en cumulant les points des combinaisons posées devant soi.",
+                setup: "Distribuez 7 cartes par joueur (13 à 2 joueurs). Étalez la défausse en éventail légèrement décalé afin que toutes les cartes défaussées restent visibles.",
+                rules: [
+                    "<strong>Piocher loin dans la défausse :</strong> Vous pouvez piocher la carte supérieure du talon OU prendre n'importe quelle carte située au milieu de la défausse, à condition de prendre aussi toutes les cartes posées par-dessus elle et de jouer immédiatement la carte ciblée dans une combinaison !",
+                    "<strong>Comptage individuel :</strong> Chaque joueur garde ses propres combinaisons posées devant lui (y compris les cartes qu'il ajoute sur les combinaisons adverses).",
+                    "<strong>Décompte :</strong> As = 15 pts, Figures = 10 pts, 2–10 = valeur faciale (moins les cartes restant en main à la fin de la manche)."
+                ]
+            },
+            {
+                title: "Régicide",
+                aliases: "Regicide",
+                category: "Adaptations 52 cartes",
+                players: "1 à 4 joueurs (Solo / Coopératif)",
+                playerTags: ["1", "2", "3-4"],
+                deck: "1 jeu de 54 cartes (52 + 2 Jokers)",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "Nouvelle-Zélande (Jeu moderne à 54 cartes)",
+                prep52: "Utilisez les 52 cartes + 2 Jokers (0 Joker en solo, 1 Joker à 3 joueurs, 2 Jokers à 4 joueurs ; en solo vous disposez de 2 jokers virtuels permettant de défausser votre main et repiocher 8 cartes).",
+                goal: "Vaincre collectivement les 12 têtes du paquet (4 Valets, 4 Dames, puis 4 Rois) avant d'être à court de cartes pour encaisser leurs attaques.",
+                setup: "Empilez les 4 Rois au fond, les 4 Dames au milieu et les 4 Valets au sommet du Château. Formez la pioche avec les cartes As à 10 (+ Jokers selon joueurs). Main initiale : 8 cartes en solo, 7 à 2, 6 à 3, 5 à 4 joueurs.",
+                rules: [
+                    "<strong>Stats des ennemis :</strong> Valets = 20 PV / 10 Attaque ; Dames = 30 PV / 15 Attaque ; Rois = 40 PV / 20 Attaque. Chaque ennemi est immunisé contre le pouvoir de sa propre enseigne.",
+                    "<strong>Pouvoirs des enseignes (valeur X) :</strong> ♥ Soigne (remet X cartes de la défausse sous la pioche), ♦ Pioche X cartes, ♣ Double les dégâts (X × 2), ♠ Bouclier (réduit l'attaque de l'ennemi de X).",
+                    "<strong>Riposte :</strong> Si l'ennemi survit, le joueur actif doit défausser des cartes de sa main dont la somme égale ou dépasse l'attaque restante de l'ennemi."
+                ]
+            },
+            {
+                title: "Scopa",
+                aliases: "La Scopa italienne, Escoba",
+                category: "Défausse & Combinaisons",
+                players: "2 à 4 joueurs",
+                playerTags: ["2", "3-4"],
+                deck: "1 jeu de 40 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "Italie",
+                prep52: "Retirez les 8, 9 et 10 des quatre enseignes de votre jeu de 52 cartes pour obtenir 40 cartes (As = 1 à 7, Valet = 8, Dame = 9, Roi = 10 ; Carreau = Deniers).",
+                goal: "Atteindre 11 ou 21 points en capturant des cartes par égalité ou par addition et en vidant la table (« Scopa »).",
+                setup: "Distribuez 3 cartes à chaque joueur et étalez 4 cartes face visible au centre.",
+                rules: [
+                    "<strong>Capture :</strong> Jouez 1 carte : si elle égale une carte du tapis (un 7 prend un 7) ou la <em>somme</em> de plusieurs cartes (un 7 prend un 4 et un 3), vous ramassez ces cartes.",
+                    "<strong>Faire Scopa :</strong> Si votre prise vide intégralement la table, vous marquez immédiatement <strong>+1 pt</strong> de Scopa.",
+                    "<strong>Décompte par donne :</strong> +1 pt majorité de cartes (>20), +1 pt majorité de Carreaux (>5), +1 pt pour le 7 de Carreau (Sette Bello), +1 pt pour la Primiera (meilleure combinaison de 7 et 6), +1 pt par Scopa."
+                ]
+            },
+            {
+                title: "Scorpion",
+                aliases: "Scorpion Solitaire",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Former directement dans les colonnes 4 suites complètes descendantes du Roi à l'As dans la même enseigne.",
+                setup: "Distribuez 49 cartes en 7 colonnes de 7 cartes (dans les 4 premières colonnes, les 3 cartes du fond sont face cachée ; toutes les autres sont face visible). Conservez les 3 dernières cartes en réserve.",
+                rules: [
+                    "<strong>Déplacements façon Yukon :</strong> Vous pouvez déplacer n'importe quelle carte face visible (avec toutes les cartes empilées sous elle, même en désordre !) sur le bas d'une autre colonne si la carte cible est de la <strong>même enseigne</strong> et du rang immédiatement supérieur (ex : déplacer un bloc commençant par 8♠ sur un 9♠).",
+                    "<strong>Colonnes vides & Réserve :</strong> Seul un Roi (avec sa pile) peut occuper une colonne vide. Lorsque vous êtes bloqué, distribuez les 3 cartes de réserve sur les 3 premières colonnes."
+                ]
+            },
+            {
+                title: "Snap !",
+                aliases: "Snap, Le Doublon rapide",
+                category: "Duel & Réflexes",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–15 min",
+                origin: "Angleterre / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Remporter toutes les cartes en criant « Snap ! » le plus vite possible dès qu'une paire apparaît.",
+                setup: "Distribuez toutes les 52 cartes face cachée en paquets égaux devant chaque joueur.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> Chacun retourne à tour de rôle la carte du dessus de son paquet sur sa propre pile visible à côté.",
+                    "<strong>Crier Snap ! :</strong> Dès que deux piles visibles affichent la même hauteur au sommet, le premier joueur à crier « Snap ! » ramasse les deux piles et les glisse sous son paquet.",
+                    "<strong>Faux Snap :</strong> Crier « Snap ! » par erreur envoie la pile visible du joueur fautif au centre (« Snap Pool »), remportée par le premier à crier « Snap Pot ! » lors d'une correspondance avec le centre."
+                ]
+            },
+            {
+                title: "Soixante-six (66)",
+                aliases: "Le 66, Sechsundsechzig, Mariage",
+                category: "Levées & Plis",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 24 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "Allemagne / Autriche / Europe centrale",
+                prep52: "Conservez uniquement les 9, 10, Valet, Dame, Roi et As des quatre enseignes (24 cartes).",
+                goal: "Être le premier joueur à atteindre 66 points dans la donne (partie disputée en 7 points de manche).",
+                setup: "Distribuez 6 cartes à chaque joueur (3 + 3). Retournez la 13e carte face visible sous le talon pour indiquer l'Atout.",
+                rules: [
+                    "<strong>Valeurs :</strong> As (11 pts) > 10 (10 pts) > Roi (4 pts) > Dame (3 pts) > Valet (2 pts) > 9 (0 pt). Dernier pli = +10 pts (Total = 130 pts).",
+                    "<strong>Mariages :</strong> Lorsque vous avez la main, déclarer Roi + Dame d'une même enseigne rapporte <strong>+20 pts</strong> (<strong>+40 pts</strong> à l'atout).",
+                    "<strong>Deux phases :</strong> Tant que le talon n'est pas épuisé (ou « fermé » par un joueur), aucune obligation de fournir ni de couper. Dès que le talon est épuisé ou fermé, obligation stricte de fournir et de monter."
+                ]
+            },
+            {
+                title: "Spades",
+                aliases: "Atout Pique",
+                category: "Levées & Plis",
+                players: "4 joueurs (équipes de 2)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "30–45 min",
+                origin: "États-Unis",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Être la première équipe à atteindre 500 points en réalisant le contrat cumulé de levées annoncé par les deux partenaires.",
+                setup: "Distribuez les 52 cartes (13 par joueur). Le <strong>Pique</strong> est toujours l'atout fixe.",
+                rules: [
+                    "<strong>Enchères :</strong> Chaque joueur annonce le nombre de levées qu'il pense faire (0 à 13) ; les paris des deux partenaires s'additionnent. Annoncer « Nil » (0 pli) vaut +100 pts s'il réussit (-100 pts sinon).",
+                    "<strong>Jeu de la carte :</strong> Obligation de fournir la couleur demandée (As > Roi > Dame ... > 2). Interdit d'entamer à Pique tant que le Pique n'a pas été coupé.",
+                    "<strong>Décompte & Sacs :</strong> Contrat réussi = 10 pts par pli annoncé + 1 pt par pli supplémentaire (« sac de sable »). Cumuler 10 sacs de sable inflige une pénalité de -100 points !"
+                ]
+            },
+            {
+                title: "Speed / Spit",
+                aliases: "Speed, Spit, Bataille de vitesse",
+                category: "Duel & Réflexes",
+                players: "2 joueurs",
+                playerTags: ["2"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5–10 min",
+                origin: "États-Unis / International",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Se débarrasser de toutes ses cartes le premier en temps réel, sans tour de jeu.",
+                setup: "Distribuez 20 cartes à chaque joueur (chacun garde 5 cartes en main et 15 cartes en pioche personnelle). Placez 2 piles de 5 cartes face cachée en réserve sur les côtés et 2 cartes centrales face visible.",
+                rules: [
+                    "<strong>Action simultanée :</strong> Au signal, les deux joueurs posent simultanément sur l'une ou l'autre des deux piles centrales toute carte de leur main dont la valeur est immédiatement supérieure (+1) ou inférieure (-1) à la carte visible (boucle Roi-As autorisée, peu importe l'enseigne).",
+                    "<strong>Main de 5 cartes :</strong> Dès que vous posez une carte, vous pouvez piocher dans votre paquet de 15 cartes pour maintenir jusqu'à 5 cartes en main.",
+                    "<strong>Blocage :</strong> Si aucun des deux joueurs ne peut jouer, chacun retourne simultanément 1 carte de sa réserve de 5 cartes sur les piles centrales."
+                ]
+            },
+            {
+                title: "Spider",
+                aliases: "Spider Solitaire, L'Araignée",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "2 jeux de 52 cartes (104 cartes)",
+                deckFilter: "2-decks",
+                duration: "20–40 min",
+                origin: "États-Unis / International",
+                prep52: "Réunissez deux paquets complets de 52 cartes (104 cartes sans Joker).",
+                goal: "Assembler 8 suites complètes descendantes du Roi à l'As dans la même enseigne.",
+                setup: "Distribuez 54 cartes en 10 colonnes (4 colonnes de 6 cartes et 6 de 5 cartes, seule la carte du bas étant visible). Gardez les 50 cartes restantes en 5 salves de distribution de 10 cartes.",
+                rules: [
+                    "<strong>Empilement :</strong> On peut poser n'importe quelle carte sur une carte de rang immédiatement supérieur (quelle que soit l'enseigne), mais seule une suite ordonnée de la <strong>même enseigne</strong> peut être déplacée d'un seul bloc.",
+                    "<strong>Élimination automatique :</strong> Dès qu'une suite complète de 13 cartes (Roi à As) de même enseigne est formée, elle est retirée du jeu.",
+                    "<strong>Distribution :</strong> Quand vous êtes bloqué (et qu'aucune colonne n'est vide), distribuez 1 nouvelle carte au bas de chacune des 10 colonnes."
+                ]
+            },
+            {
+                title: "Tamalou",
+                aliases: "Cabo, Cambio, Cactus, Golf à 4 cartes",
+                category: "Défausse & Combinaisons",
+                players: "2 à 6 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 54 cartes (52 + 2 Jokers)",
+                deckFilter: "1-deck",
+                duration: "15–25 min",
+                origin: "International",
+                prep52: "Utilisez les 52 cartes + 2 Jokers (54 cartes). Jokers = -1 pt (ou 0 pt).",
+                goal: "Terminer la manche avec la somme de points la plus faible parmi les 4 cartes face cachée devant soi.",
+                setup: "Distribuez 4 cartes face cachée en carré (2×2) devant chaque joueur. Chacun regarde secrètement 2 de ses cartes une seule fois au début.",
+                rules: [
+                    "<strong>Valeurs :</strong> Joker = -1 pt, Rois Rouges (♥♦) = 0 pt, As = 1, 2–10 = valeur faciale, Valet/Dame = 10, Rois Noirs (♠♣) = 13 pts.",
+                    "<strong>Tour de jeu :</strong> Piochez 1 carte au talon (ou prenez la défausse). Échangez-la face cachée contre l'une de vos cartes, OU défaussez-la immédiatement pour déclencher son pouvoir : <strong>7–8</strong> (regarder 1 de ses cartes), <strong>9–10</strong> (regarder 1 carte adverse), <strong>Valet–Dame</strong> (échanger à l'aveugle 2 cartes entre deux joueurs).",
+                    "<strong>Annoncer Tamalou :</strong> Lorsqu'un joueur pense avoir ≤ 5 points, il annonce « Tamalou ! » : chaque adversaire joue un dernier tour avant le décompte."
+                ]
+            },
+            {
+                title: "Trio (adaptation 52 cartes)",
+                aliases: "Trio 52, Nana",
+                category: "Adaptations 52 cartes",
+                players: "3 à 6 joueurs",
+                playerTags: ["3-4", "5+"],
+                deck: "1 jeu de 36 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "15–20 min",
+                origin: "Adaptation moderne (As d'Or)",
+                prep52: "Retirez les 4 Rois, les Jokers et l'intégralité d'une enseigne (ex : tous les Trèfles) de votre paquet de 52 cartes. Vous obtenez 36 cartes composées de 3 exemplaires de chaque rang de l'As (1) à la Dame (12).",
+                goal: "Être le premier joueur à réunir 3 Trios (3 cartes de même valeur) ou le Trio de 7.",
+                setup: "Triez impérativement votre main de la plus petite carte à la plus grande ! Distribuez les cartes équitablement et placez les cartes restantes face cachée au centre (ex : à 4 joueurs, 8 cartes chacun + 4 au centre).",
+                rules: [
+                    "<strong>Révéler 3 cartes :</strong> À votre tour, révélez jusqu'à 3 cartes une par une tant qu'elles sont identiques : vous pouvez retourner une carte cachée du centre OU demander à un joueur (y compris vous-même) de révéler sa <strong>plus petite</strong> ou sa <strong>plus grande</strong> carte en main.",
+                    "<strong>Succès ou Échec :</strong> Si vous révélez 3 cartes identiques, vous gagnez le Trio ! Dès qu'une carte révélée diffère des précédentes, votre tour s'arrête et toutes les cartes retournées reprennent leur place cachée."
+                ]
+            },
+            {
+                title: "TriPeaks",
+                aliases: "Three Peaks, Tri Towers",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "5–10 min",
+                origin: "États-Unis",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Éliminer toutes les cartes des trois sommets pyramidaux sur la pile de défausse.",
+                setup: "Formez 3 petites pyramides jointives sur 4 rangées (18 cartes face cachée sur les 3 rangs supérieurs et 10 cartes face visible à la base = 28 cartes). Placez 1 carte visible en défausse et gardez les 23 restantes en pioche.",
+                rules: [
+                    "<strong>Enchaînement (+1 / -1) :</strong> Cliquez ou déplacez toute carte libre de la base dont le rang est supérieur ou inférieur de 1 par rapport à la carte visible de la défausse (boucle Roi–As autorisée, peu importe l'enseigne).",
+                    "<strong>Dévoilement :</strong> Dès qu'une carte cachée n'est plus recouverte par deux cartes de la rangée inférieure, elle est retournée face visible.",
+                    "<strong>Pioche :</strong> Tirez 1 carte du talon dès que vous ne pouvez plus enchaîner."
+                ]
+            },
+            {
+                title: "Truco",
+                aliases: "Truco argentino / español",
+                category: "Casino & Bluff",
+                players: "2, 4 ou 6 joueurs (en équipes)",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 40 cartes (issu du 52)",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "Espagne / Amérique du Sud (Argentine, Brésil)",
+                prep52: "Retirez les 8, 9 et 10 des quatre enseignes de votre jeu de 52 cartes pour obtenir 40 cartes (Carreau = Deniers, Cœur = Coupes, Pique = Épées, Trèfle = Bâtons).",
+                goal: "Atteindre 30 points en remportant des manches en 3 plis grâce au bluff et aux surenchères (« Envido » et « Truco »).",
+                setup: "Distribuez 3 cartes à chaque joueur. Aucune couleur d'atout fixe : la hiérarchie des cartes est absolue.",
+                rules: [
+                    "<strong>Hiérarchie absolue (du plus fort au plus faible) :</strong> As de Pique (Espada) > As de Trèfle (Basto) > 7 de Pique > 7 de Carreau > tous les 3 > tous les 2 > As rouges > Rois > Dames > Valets > 7 rouges > 6 > 5 > 4.",
+                    "<strong>L'Envido (1er tour uniquement) :</strong> Pari sur la valeur de 2 cartes de même enseigne en main (+20 pts de bonus + valeur des 2 cartes). Surenchères : <em>Envido</em> (2 pts), <em>Real Envido</em> (3 pts), <em>Falta Envido</em>.",
+                    "<strong>Le Truco (les 3 plis) :</strong> Le meilleur des 3 plis rapporte 1 pt, mais à tout moment un joueur peut crier <em>« Truco ! »</em> (2 pts), auquel l'adversaire peut répondre <em>« Retruco ! »</em> (3 pts) ou <em>« Vale Cuatro ! »</em> (4 pts) ou se coucher."
+                ]
+            },
+            {
+                title: "Whist",
+                aliases: "Whist classique en équipes",
+                category: "Levées & Plis",
+                players: "4 joueurs (2 équipes)",
+                playerTags: ["3-4"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "25–40 min",
+                origin: "Angleterre / Europe",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Marquer 5 points (un « Rob ») en remportant le maximum de levées au-delà des 6 premières.",
+                setup: "Distribuez les 52 cartes (13 par joueur). La dernière carte du donneur est retournée face visible sur la table : son enseigne fixe l'atout de la donne.",
+                rules: [
+                    "<strong>Ordre des cartes :</strong> As (plus fort) > Roi > Dame > Valet > 10 > 9 ... > 2.",
+                    "<strong>Jeu de la carte :</strong> Le joueur à gauche du donneur entame. Obligation stricte de fournir la couleur demandée ; à défaut, coupe à l'atout ou défausse libre.",
+                    "<strong>Décompte :</strong> Les 6 premiers plis (« le livre ») ne rapportent rien. Chaque levée réalisée à partir de la 7e rapporte 1 point à l'équipe gagnante."
+                ]
+            },
+            {
+                title: "Yaniv",
+                aliases: "Yaniv ! / Asaf !",
+                category: "Défausse & Combinaisons",
+                players: "2 à 5 joueurs",
+                playerTags: ["2", "3-4", "5+"],
+                deck: "1 jeu de 54 cartes (52 + 2 Jokers)",
+                deckFilter: "1-deck",
+                duration: "20–30 min",
+                origin: "Israël / Voyageurs",
+                prep52: "Utilisez les 52 cartes + 2 Jokers (valant 0 pt).",
+                goal: "Garder le score cumulé le plus bas lorsqu'un joueur atteint 100 ou 200 points.",
+                setup: "Distribuez 5 cartes à chaque joueur. Valeurs : Joker = 0 pt, As = 1 pt, 2–10 = valeur faciale, Figures = 10 pts.",
+                rules: [
+                    "<strong>Tour de jeu :</strong> 1) Défaussez 1 carte seule, OU plusieurs cartes de même hauteur, OU une suite d'au moins 3 cartes de même enseigne. 2) Piochez 1 carte (au talon ou sur l'ancienne défausse).",
+                    "<strong>Annoncer Yaniv :</strong> Au début de votre tour, si votre main totalise <strong>7 points ou moins</strong>, dites « Yaniv ! ». Si vous avez le score le plus bas, vous marquez 0 pt.",
+                    "<strong>Contre « Asaf ! » :</strong> Si un adversaire possède un score <em>inférieur ou égal</em> au vôtre, il crie « Asaf ! », marque 0 pt et vous inflige +30 points de pénalité !"
+                ]
+            },
+            {
+                title: "Yukon",
+                aliases: "Yukon Solitaire",
+                category: "Solitaires & Réussites",
+                players: "1 joueur (Solo)",
+                playerTags: ["1"],
+                deck: "1 jeu de 52 cartes",
+                deckFilter: "1-deck",
+                duration: "10–20 min",
+                origin: "Canada (Klondike)",
+                prep52: "Utilisez le paquet complet de 52 cartes (sans Joker).",
+                goal: "Monter toutes les 52 cartes sur les 4 fondations par enseigne de l'As au Roi.",
+                setup: "Distribuez toutes les 52 cartes en 7 colonnes (comme au Klondike, de 1 à 7 cartes face cachée par colonne), puis distribuez immédiatement les 24 cartes restantes face visible par-dessus les colonnes 2 à 7 (4 cartes supplémentaires par colonne).",
+                rules: [
+                    "<strong>Aucune pioche :</strong> Toutes les cartes sont déjà sur le tableau dès le départ.",
+                    "<strong>Déplacement libre de blocs :</strong> Vous pouvez déplacer <strong>n'importe quelle carte face visible</strong> ainsi que toutes les cartes situées sous elle (même si elles ne forment pas une suite ordonnée !), à condition que la carte saisie se pose sur une carte de couleur opposée (rouge/noir) et de rang immédiatement supérieur.",
+                    "<strong>Colonnes vides :</strong> Seul un Roi (avec les cartes qui l'accompagnent) peut occuper une colonne vide."
+                ]
+            }
+        ];
+
+        // Strict French alphabetical sort (localeCompare 'fr')
+        const GAMES_DATA = RAW_GAMES_DATA
+            .sort((a, b) => a.title.localeCompare(b.title, 'fr', { sensitivity: 'base', numeric: true }))
+            .map((game, index) => ({
+                ...game,
+                id: 'game-' + index,
+                alphaIndex: index + 1
+            }));
+
+        // Application State
+        let activeCategory = 'all';
+        let activeLetter = 'all';
+        let viewMode = 'cards'; // 'cards' | 'table'
+        let currentModalGameId = null;
+
+        const SUITS = [
+            { symbol: '♠', color: 'suit-black' },
+            { symbol: '♥', color: 'suit-red' },
+            { symbol: '♣', color: 'suit-black' },
+            { symbol: '♦', color: 'suit-red' }
+        ];
+
+        function getSuitForIndex(idx) {
+            return SUITS[idx % SUITS.length];
+        }
+
+        function getNormalizedFirstChar(title) {
+            const first = title.trim().charAt(0).toUpperCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            return /[0-9]/.test(first) ? '0-9' : first;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('count-all').textContent = GAMES_DATA.length;
+            buildAlphabetBar();
+            applyFilters();
+        });
+
+        // Build Quick A-Z / 0-9 Index Bar
+        function buildAlphabetBar() {
+            const availableLetters = new Set(GAMES_DATA.map(g => getNormalizedFirstChar(g.title)));
+            const keys = ['all', '0-9', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')];
+            const bar = document.getElementById('alphaBar');
+
+            let html = `<span class="alpha-label">Index :</span>`;
+            keys.forEach(key => {
+                const label = key === 'all' ? 'Tous' : key;
+                const enabled = key === 'all' || availableLetters.has(key);
+                const activeClass = activeLetter === key ? 'is-active' : '';
+                html += `<button type="button" class="alpha-btn ${activeClass}" data-letter="${key}" ${enabled ? '' : 'disabled'} onclick="setLetter('${key}', this)">${label}</button>`;
+            });
+            bar.innerHTML = html;
+        }
+
+        function setLetter(letter, btnEl) {
+            activeLetter = letter;
+            document.querySelectorAll('#alphaBar .alpha-btn').forEach(btn => btn.classList.remove('is-active'));
+            if (btnEl) btnEl.classList.add('is-active');
+            applyFilters();
+        }
+
+        function setCategory(cat, btnElement) {
+            activeCategory = cat;
+            document.querySelectorAll('.category-pills button').forEach(btn => btn.classList.remove('is-active'));
+            if (btnElement) btnElement.classList.add('is-active');
+            applyFilters();
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            const btnCards = document.getElementById('btnViewCards');
+            const btnTable = document.getElementById('btnViewTable');
+
+            if (mode === 'cards') {
+                btnCards.classList.add('is-active');
+                btnTable.classList.remove('is-active');
+            } else {
+                btnTable.classList.add('is-active');
+                btnCards.classList.remove('is-active');
+            }
+            applyFilters();
+        }
+
+        function getFilteredGames() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const playerVal = document.getElementById('playerFilter').value;
+            const deckVal = document.getElementById('deckFilter').value;
+
+            return GAMES_DATA.filter(game => {
+                const matchCat = activeCategory === 'all' || game.category === activeCategory;
+                const matchPlayer = playerVal === 'all' || game.playerTags.includes(playerVal);
+                const matchDeck = deckVal === 'all' || game.deckFilter === deckVal;
+                const matchLetter = activeLetter === 'all' || getNormalizedFirstChar(game.title) === activeLetter;
+
+                const searchable = `${game.title} ${game.aliases} ${game.origin} ${game.category} ${game.deck} ${game.prep52} ${game.goal} ${game.setup} ${game.rules.join(' ')}`.toLowerCase();
+                const matchQuery = !query || searchable.includes(query);
+
+                return matchCat && matchPlayer && matchDeck && matchLetter && matchQuery;
+            });
+        }
+
+        function applyFilters() {
+            const filtered = getFilteredGames();
+            const cardsView = document.getElementById('cardsView');
+            const tableView = document.getElementById('tableView');
+            const tableBody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
+            const visibleCount = document.getElementById('visibleCount');
+            const resetBtn = document.getElementById('resetFiltersBtn');
+
+            const isFiltered = activeCategory !== 'all' ||
+                activeLetter !== 'all' ||
+                document.getElementById('searchInput').value.trim() !== '' ||
+                document.getElementById('playerFilter').value !== 'all' ||
+                document.getElementById('deckFilter').value !== 'all';
+
+            resetBtn.classList.toggle('hidden', !isFiltered);
+            visibleCount.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                cardsView.classList.add('hidden');
+                tableView.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            if (viewMode === 'cards') {
+                cardsView.classList.remove('hidden');
+                tableView.classList.add('hidden');
+
+                cardsView.innerHTML = filtered.map(game => {
+                    const suit = getSuitForIndex(game.alphaIndex - 1);
+                    return `
+                        <article class="game-card">
+                            <div>
+                                <div class="card-header-meta">
+                                    <span class="badge">${game.category}</span>
+                                    <span class="suit-symbol ${suit.color}" aria-hidden="true">${suit.symbol}</span>
+                                </div>
+                                <h3 style="margin-bottom: 0.15rem;">
+                                    <a href="#${game.id}" onclick="event.preventDefault(); openModal('${game.id}')" style="color: var(--heading-color);">
+                                        ${game.title}
+                                    </a>
+                                </h3>
+                                <div class="game-aliases">${game.aliases}</div>
+                                <div class="game-origin">${game.origin} • <strong>${game.players}</strong></div>
+                                <p class="game-summary">${game.goal}</p>
+                                <div class="prep-52-mini">
+                                    <strong>Préparation 52 cartes :</strong> ${game.prep52}
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <span class="meta-specs">${game.deck} • ${game.duration}</span>
+                                <button type="button" class="button small-button" onclick="openModal('${game.id}')">
+                                    Règles
+                                </button>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+            } else {
+                cardsView.classList.add('hidden');
+                tableView.classList.remove('hidden');
+
+                tableBody.innerHTML = filtered.map(game => {
+                    const suit = getSuitForIndex(game.alphaIndex - 1);
+                    return `
+                        <tr>
+                            <td>
+                                <span class="suit-symbol ${suit.color}" style="margin-right: 0.35rem; font-size: 1rem;">${suit.symbol}</span>
+                                <strong>${game.title}</strong>
+                                <div style="font-size: 0.78rem; color: var(--muted-color);">${game.aliases} (${game.origin})</div>
+                            </td>
+                            <td><span class="badge">${game.category}</span></td>
+                            <td>${game.players}</td>
+                            <td>${game.deck}</td>
+                            <td style="max-width: 310px; font-size: 0.83rem;">${game.prep52}</td>
+                            <td>
+                                <button type="button" class="button small-button" onclick="openModal('${game.id}')">
+                                    Règles
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+
+        function resetAllFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('playerFilter').value = 'all';
+            document.getElementById('deckFilter').value = 'all';
+            activeLetter = 'all';
+            document.querySelectorAll('#alphaBar .alpha-btn').forEach(btn => {
+                btn.classList.toggle('is-active', btn.dataset.letter === 'all');
+            });
+            const allTab = document.querySelector('.category-pills button[data-cat="all"]');
+            setCategory('all', allTab);
+        }
+
+        // Modal Management
+        function openModal(gameId) {
+            const idx = GAMES_DATA.findIndex(g => g.id === gameId);
+            if (idx === -1) return;
+
+            currentModalGameId = gameId;
+            const game = GAMES_DATA[idx];
+            const suit = getSuitForIndex(idx);
+
+            const suitEl = document.getElementById('modalSuit');
+            suitEl.textContent = suit.symbol;
+            suitEl.className = `suit-symbol ${suit.color}`;
+
+            document.getElementById('modalCategoryBadge').textContent = game.category;
+            document.getElementById('modalOrigin').textContent = game.origin;
+            document.getElementById('modalIndexBadge').textContent = `#${game.alphaIndex} / ${GAMES_DATA.length}`;
+            document.getElementById('modalTitle').textContent = game.title;
+            document.getElementById('modalAliases').textContent = `Autres noms : ${game.aliases}`;
+
+            document.getElementById('modalPlayers').textContent = game.players;
+            document.getElementById('modalDeck').textContent = game.deck;
+            document.getElementById('modalDuration').textContent = game.duration;
+            document.getElementById('modalOriginSpec').textContent = game.origin;
+            document.getElementById('modalPrep52').textContent = game.prep52;
+
+            document.getElementById('modalGoal').textContent = game.goal;
+            document.getElementById('modalSetup').textContent = game.setup;
+            document.getElementById('modalRules').innerHTML = `<ul>${game.rules.map(r => `<li>${r}</li>`).join('')}</ul>`;
+
+            const modal = document.getElementById('gameModal');
+            modal.hidden = false;
+            document.body.style.overflow = 'hidden';
+            document.getElementById('modalBody').scrollTop = 0;
+        }
+
+        function navigateModal(delta) {
+            if (!currentModalGameId) return;
+            const currentIdx = GAMES_DATA.findIndex(g => g.id === currentModalGameId);
+            if (currentIdx === -1) return;
+            const nextIdx = (currentIdx + delta + GAMES_DATA.length) % GAMES_DATA.length;
+            openModal(GAMES_DATA[nextIdx].id);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('gameModal');
+            modal.hidden = true;
+            document.body.style.overflow = '';
+            currentModalGameId = null;
+        }
+
+        function handleBackdropClick(event) {
+            if (event.target.id === 'gameModal') {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('gameModal');
+            if (!modal.hidden) {
+                if (e.key === 'Escape') closeModal();
+                if (e.key === 'ArrowLeft') navigateModal(-1);
+                if (e.key === 'ArrowRight') navigateModal(1);
+            }
+        });
+
+        // Random Game Drawer (from active filtered pool)
+        function drawRandomGame() {
+            const pool = getFilteredGames();
+            const list = pool.length > 0 ? pool : GAMES_DATA;
+            const randomGame = list[Math.floor(Math.random() * list.length)];
+            openModal(randomGame.id);
+        }
+    </script>
+</body>
+</html>
